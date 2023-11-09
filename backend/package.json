@@ -12,7 +12,7 @@
     "contenido",
     "semestres"
   ],
-  "author": "Gabriela Ortega",
+  "author": "Luis Acosta",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
