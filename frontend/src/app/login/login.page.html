@@ -1,39 +1,30 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Login - Luis </ion-title>
-  </ion-toolbar>
+  
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="usuario">
-  <ion-card>
-    <ion-item>
-      <ion-label class="ion-text-wrap">
-        <h2>
-          <ion-item>
-            <ion-input
-              label="Email :"
-              labelPlacement="stacked"
-              placeholder="Ingrese el email"
-              [(ngModel)]="usuario.email"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input
-              type="password"
-              label="Password :"
-              label-placement="stacked"
-              placeholder="Ingrese el password"
-              [(ngModel)]="usuario.password"
-            ></ion-input>
-          </ion-item>
-        </h2>
-      </ion-label>
-    </ion-item>
+<ion-content [fullscreen]="true" *ngIf="usuario" class="ion-content-center">
+  <ion-card class="login-card">
+    <ion-card-header>
+      <ion-title class="login-title">Iniciar Sesión</ion-title>
+    </ion-card-header>
+    <ion-card-content class="login-content">
+      <ion-item lines="none">
+        <ion-input
+          type="text"
+          placeholder="Ingrese su email"
+          [(ngModel)]="usuario.email"
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          type="password"
+          placeholder="Ingrese su contraseña"
+          [(ngModel)]="usuario.password"
+        ></ion-input>
+      </ion-item>
+    </ion-card-content>
+    <ion-button expand="full" (click)="loginUser()" class="login-button">
+      Ingresar
+    </ion-button>
   </ion-card>
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="loginUser()">
-      <ion-icon name="log-in-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>

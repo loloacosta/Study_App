@@ -1,40 +1,53 @@
-ion-item {
-  --inner-padding-end: 0;
-  --background: transparent;
+ion-card.login-card {
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-ion-label {
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-
-ion-item h2 {
+ion-title.login-title {
+  text-align: center;
+  font-size: 24px;
   font-weight: 600;
+  color: white;
 }
 
-ion-item .date {
-  float: right;
-  align-items: center;
-  display: flex;
+ion-card-content.login-content {
+  padding: 16px;
 }
 
-ion-item ion-icon {
-  font-size: 42px;
-  margin-right: 8px;
+ion-item {
+  margin-bottom: 16px;
 }
 
-ion-item ion-note {
-  font-size: 15px;
-  margin-right: 12px;
-  font-weight: normal;
-}
-
-h1 {
-  margin: 0;
+ion-button.login-button {
+  --border-radius: 5px;
+  --background: linear-gradient(to bottom, rgb(51, 54, 255), #00c3ff);
+  --color: white;
   font-weight: bold;
-  font-size: 22px;
+  margin-top: 16px;
 }
 
-p {
-  line-height: 22px;
+/* Establece un margen superior responsivo */
+.login-card {
+  margin-top: 10%;
+}
+
+/* Personaliza el estilo del botón */
+.login-button {
+  margin-top: 10px;
+  background-color: #3880ff; /* Puedes ajustar el color según tus necesidades */
+}
+
+/* Clase para centrar vertical y horizontalmente el contenido */
+.ion-content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+ion-input {
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
 }

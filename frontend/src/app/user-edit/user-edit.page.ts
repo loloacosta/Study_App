@@ -69,6 +69,8 @@ export class UserEditPage implements OnInit {
   }
 
   saveUser() {
+    console.log(this.usuario);
+    
     let token = localStorage.getItem('token');
     let config = {
       headers: {
@@ -81,6 +83,7 @@ export class UserEditPage implements OnInit {
       name: this.usuario.name,
       last_name: this.usuario.last_name,
       email: this.usuario.email,
+      password: this.usuario.password,
     };
     axios
       .post('http://localhost:3000/users/update', data, config)
