@@ -62,7 +62,11 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let topico of topicosCompartidosConmigo">
-          <ion-label [style.color]="topico.color">{{topico.id}} - {{topico.name}}</ion-label>
+        
+          <ion-label [style.color]="topico.color">
+            {{topico.name}} por {{topico.nombre}} {{topico.apellido}}
+          </ion-label>
+
           <ion-buttons slot="end">
             <ion-button [routerLink]="'/topic-details/' + topico.id">
               <ion-icon slot="icon-only" name="eye"></ion-icon>

@@ -155,14 +155,15 @@ const listarSharedMeService = async function (userId) {
   console.log("listar topicos");
   try {
     const topics = await sequelize.query(`
-      SELECT t.*
+      SELECT Distinct t.*, u.name as nombre, u.last_name as apellido
       FROM shared_topics st
       INNER JOIN topics t ON st.topic_id = t.id
+      INNER JOIN users u ON u.id = st.user_shared_id
       WHERE st.user_destination_id = :userId
       ORDER BY t.id`, {
-        replacements: { userId: userId },
-        type: sequelize.QueryTypes.SELECT
-      });
+      replacements: { userId: userId },
+      type: sequelize.QueryTypes.SELECT
+    });
 
     return topics;
   } catch (error) {
