@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
-import { DataService, Message } from '../services/data.service';
 import axios from 'axios';
 import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  private data = inject(DataService);
   temas: any = [];
   temas_propiedades: any = [];
+  isModalThemesProperties: boolean = false;
+  newThemeProperty: { propertyName: string; propertyValue: string } = { propertyName: '', propertyValue: '' };
+  currentTheme: any;
 
   constructor(
     private toastController: ToastController,
@@ -25,14 +28,8 @@ export class HomePage implements OnInit {
     }, 3000);
   }
 
-  getMessages(): Message[] {
-    return this.data.getMessages();
-  }
-
   ionViewWillEnter(): void {
-    //verificar si el usuario no esta logueado
     let token = localStorage.getItem('token');
-    //localStorage.removeItem("token");
     if (!token) {
       this.router.navigate(['/login']);
       return;
@@ -52,11 +49,9 @@ export class HomePage implements OnInit {
     axios
       .post('http://localhost:3000/user/logout', data, config)
       .then(async (result) => {
-        console.log('aber', config);
         if (result.data.success == true) {
-          console.log('qlqpasa');
           localStorage.removeItem('token');
-          this.presentToast('Sesion Finalizada');
+          this.presentToast('Sesión Finalizada');
           this.router.navigate(['/login']);
         } else {
           this.presentToast(result.data.error);
@@ -81,15 +76,13 @@ export class HomePage implements OnInit {
       .then((result) => {
         if (result.data.success == true) {
           this.temas = result.data.temas;
-          //console.log(this.temas);
-          
         } else {
-          console.log(result.data.error);
+          console.error(result.data.error);
           this.presentToast(result.data.error);
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
         this.presentToast(error.message);
       });
   }
@@ -107,12 +100,12 @@ export class HomePage implements OnInit {
         if (result.data.success == true) {
           this.temas_propiedades = result.data.themes_properties;
         } else {
-          console.log(result.data.error);
+          console.error(result.data.error);
           this.presentToast(result.data.error);
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
         this.presentToast(error.message);
       });
   }
@@ -124,5 +117,51 @@ export class HomePage implements OnInit {
       position: 'bottom',
     });
     await toast.present();
+  }
+
+  abrirModalThemesProperties(tema: any) {
+    this.isModalThemesProperties = true;
+    this.currentTheme = tema;
+  }
+
+  cerrarModalThemesProperties() {
+    this.isModalThemesProperties = false;
+    this.newThemeProperty = { propertyName: '', propertyValue: '' };
+  }
+
+  guardarThemesProperties() {
+    if (!this.newThemeProperty.propertyName || !this.newThemeProperty.propertyValue) {
+      console.error('Por favor, completa todos los campos.');
+      return;
+    }
+
+    const themeProperty = {
+      theme_id: this.currentTheme.id,
+      property_name: this.newThemeProperty.propertyName,
+      property_value: this.newThemeProperty.propertyValue,
+    };
+
+    let token = localStorage.getItem('token');
+    let config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+
+    axios
+      .post('http://localhost:3000/themes_properties/insertar', themeProperty, config)
+      .then((result) => {
+        if (result.data.success === true) {
+          this.presentToast('Propiedad de tema agregada.');
+          this.getThemesProperties()
+        } else {
+          console.error("Error al agregar propiedad de tema", result.data.error);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al realizar la solicitud', error);
+      });
+
+    this.cerrarModalThemesProperties();
   }
 }

@@ -1,6 +1,6 @@
+// route.js
 const themesController = require("../../controller/themes/themes.controller");
 const authMiddleware = require("../../middleware/auth.controller");
-//require es como un import para referenciar archivos
 
 module.exports = function (app) {
   app.get("/themes/list", authMiddleware.auth, themesController.listar);
@@ -15,4 +15,6 @@ module.exports = function (app) {
     authMiddleware.auth,
     themesController.eliminar
   );
+  // Corregir el nombre del método a "guardarCambios"
+  app.post("/themes/guardarCambios", authMiddleware.auth, themesController.guardarCambios);
 };

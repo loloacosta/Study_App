@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title> Temas </ion-title>
+    <ion-title>Temas-Luis</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,26 +20,28 @@
         <ion-button color="dark" fill="outline" (click)="sortIdDesc()">ID Desc</ion-button>
       </div>
     </ion-card-content>
-  
+
     <ion-list>
       <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder($event)">
         <!-- NOMBRE Y DESCRIPCION DEL TEMA-->
         <ion-item *ngFor="let tema of temas">
-          <ion-label [routerLink]="'/theme-edit/'+tema.id">{{tema.id}} - {{tema.name}} -
-            {{tema.description}}</ion-label>
+          <ion-label [routerLink]="'/theme-edit/' + tema.id">{{tema.id}} - {{tema.name}} - {{tema.description}}</ion-label>
           <!-- EDITAR TEMA-->
-          <ion-icon style=" font-size: 30px;" slot="end" name="create" [routerLink]="'/theme-edit/'
-        +
-        tema.id"></ion-icon>
-
+          <ion-icon style="font-size: 30px;" slot="end" name="create" [routerLink]="'/theme-edit/' + tema.id"></ion-icon>
           <!-- ELIMINAR TEMA-->
-          <ion-icon (click)="confirmDelete(tema.id)" style=" font-size: 30px;" slot="end" name="trash"> </ion-icon>
+          <ion-icon (click)="confirmDelete(tema.id)" style="font-size: 30px;" slot="end" name="trash"></ion-icon>
           <ion-reorder slot="end"></ion-reorder>
         </ion-item>
       </ion-reorder-group>
-
     </ion-list>
-  </ion-card> 
+  </ion-card>
+
+  <div class="ion-text-center">
+    <ion-button (click)="guardarCambios()" shape="round">
+      Guardar
+      <ion-icon slot="end" name="save-outline"></ion-icon>
+    </ion-button>
+  </div>
 
   <!-- AGREGAR TEMA-->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">

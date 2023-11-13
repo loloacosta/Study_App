@@ -10,6 +10,7 @@ import axios from 'axios';
 })
 export class ThemeListPage implements OnInit {
   temas: any = [];
+  originalTemas: any = [];
   private platform = inject(Platform);
   public alertButtons = ['Aceptar', 'Cancelar'];
 
@@ -20,7 +21,7 @@ export class ThemeListPage implements OnInit {
   ) {}
 
   ionViewWillEnter(): void {
-    //verificar si el usuario no esta logueado
+    // verificar si el usuario no está logueado
     let token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
@@ -28,6 +29,8 @@ export class ThemeListPage implements OnInit {
     }
     this.getThemes();
   }
+
+  
 
   ngOnInit() {}
 
@@ -52,27 +55,29 @@ export class ThemeListPage implements OnInit {
     });
     await alert.present();
   }
+  
 
-  getThemes() {
-    let token = localStorage.getItem('token');
-    let config = {
-      headers: {
-        Authorization: token,
-      },
-    };
-    axios
-      .get('http://localhost:3000/themes/list', config)
-      .then((result) => {
-        if (result.data.success == true) {
-          this.temas = result.data.temas;
-        } else {
-          console.log(result.data.error);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+
+async getThemes() {
+  let token = localStorage.getItem('token');
+  let config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  try {
+    const result = await axios.get('http://localhost:3000/themes/list', config);
+    if (result.data.success == true) {
+      this.temas = result.data.temas;
+      this.originalTemas = [...this.temas];
+    } else {
+      console.log(result.data.error);
+    }
+  } catch (error: any) {
+    console.log(error.message);
   }
+}
+
 
   deleteTheme(id: any) {
     let token = localStorage.getItem('token');
@@ -96,6 +101,7 @@ export class ThemeListPage implements OnInit {
       });
   }
 
+
   getBackButtonText() {
     const isIos = this.platform.is('ios');
     return isIos ? '' : '';
@@ -109,15 +115,16 @@ export class ThemeListPage implements OnInit {
     await toast.present();
   }
 
+  // Ordenar visualmente
+ reorder(event: any) {
+  const moverItem = this.temas.splice(event.detail.from, 1)[0];
+  this.temas.splice(event.detail.to, 0, moverItem);
+  console.log('Temas después de reordenar:', this.temas);
+  event.detail.complete();
+  this.originalTemas = [...this.temas]; // Actualizar originalTemas después del reordenamiento
+}
   
-  //Ordenar visualmente
-  reorder(event: any) {
-    const moverItem = this.temas.splice(event.detail.from, 1)[0];
-    this.temas.splice(event.detail.to, 0, moverItem);
-    event.detail.complete();
-  }
-
-  //ordenamientos
+  // Ordenamientos
   sortAZ() {
     this.temas.sort((a: any, b: any) => {
       const nameA = a.name.toUpperCase();
@@ -153,4 +160,40 @@ export class ThemeListPage implements OnInit {
   sortIdDesc() {
     this.temas.sort((a: any, b: any) => b.id - a.id);
   }
+
+
+
+
+
+guardarCambios() {
+  console.log('Datos a guardar:', this.temas);
+
+  let token = localStorage.getItem('token');
+  let config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  axios.post('http://localhost:3000/themes/guardarCambios', this.temas, config)
+    .then(async (result) => {
+      if (result.data.success === true) {
+        this.presentToast('Cambios guardados exitosamente');
+        // Espera un breve momento antes de recargar los temas
+        setTimeout(() => {
+          this.getThemes();
+        }, 500);
+      } else {
+        this.presentToast(result.data.error);
+      }
+    })
+    .catch((error) => {
+      const errorMessage = error.response?.data?.error || 'Error desconocido al intentar guardar cambios';
+      this.presentToast(errorMessage);
+      console.error(error);
+    });
+}
+
+
+  
 }

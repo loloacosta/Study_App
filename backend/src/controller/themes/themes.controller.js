@@ -1,24 +1,18 @@
 const { sequelize } = require("../../connection");
 const { ThemesModel } = require("../../model/themes.model");
-const themesService = require("../../service/themes.service");
+const themesService = require('../../service/themes.service');
+
 
 const listar = async function (req, res) {
   console.log("listar temas controller");
   try {
     const themes = await themesService.listar(req.query.filtro || "");
-    if (themes) {
-      res.json({
-        success: true,
-        temas: themes,
-      });
-    } else {
-      res.json({
-        success: true,
-        temas: [],
-      });
-    }
+    res.json({
+      success: true,
+      temas: themes || [],
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json({
       success: false,
       error: error.message,
@@ -29,22 +23,13 @@ const listar = async function (req, res) {
 const consultarPorCodigo = async function (req, res) {
   console.log("consultar 1 tema por codigo controller");
   try {
-    const themesModelResult = await themesService.busquedaPorCodigo(
-      req.params.filtro || ""
-    );
-    if (themesModelResult) {
-      res.json({
-        success: true,
-        theme: themesModelResult,
-      });
-    } else {
-      res.json({
-        success: true,
-        theme: [],
-      });
-    }
+    const themesModelResult = await themesService.busquedaPorCodigo(req.params.filtro || "");
+    res.json({
+      success: true,
+      theme: themesModelResult || [],
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json({
       success: false,
       error: error.message,
@@ -54,9 +39,8 @@ const consultarPorCodigo = async function (req, res) {
 
 const actualizar = async function (req, res) {
   console.log("actualizar temas controller");
-  let themesReturn = null;
   try {
-    themesReturn = await themesService.actualizar(
+    const themesReturn = await themesService.actualizar(
       req.body.id,
       req.body.create_date,
       req.body.name,
@@ -69,7 +53,7 @@ const actualizar = async function (req, res) {
       theme: themesReturn,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json({
       success: false,
       error: error.message,
@@ -85,10 +69,28 @@ const eliminar = async function (req, res) {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json({
       success: false,
       error: error.message,
+    });
+  }
+};
+
+const guardarCambios = async function (req, res) {
+  console.log("guardar cambios temas controller");
+  try {
+    const temasGuardados = await themesService.guardarCambios(req.body);
+    console.log("Temas guardados en el controlador:", temasGuardados);
+    res.json({
+      success: true,
+      temas: temasGuardados || [],
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al guardar cambios en temas',
     });
   }
 };
@@ -98,4 +100,5 @@ module.exports = {
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
+  guardarCambios
 };

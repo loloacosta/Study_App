@@ -24,6 +24,11 @@ export class TopicListPage implements OnInit {
     private router: Router
   ) { }
 
+  updateColor(id: string, color: string) {
+    // Implementa la lógica para actualizar el color del tópico aquí
+    console.log(`Actualizando color del tópico ${id} a ${color}`);
+    // Por ejemplo, puedes hacer una solicitud HTTP a tu backend para actualizar el color
+  }
   ionViewWillEnter(): void {
     //verificar si el usuario no esta logueado
     let token = localStorage.getItem('token');

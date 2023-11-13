@@ -18,6 +18,7 @@ export class TopicDetailsPage implements OnInit {
   newComentario: string = ""
   private platform = inject(Platform);
 
+
   usuarios: any = [];
   usuariosSeleccionados: number[] = [];
   @ViewChild('selectUsuarios', { static: false }) selectUsuarios: IonSelect | undefined; // Agregamos "undefined"
@@ -224,6 +225,8 @@ export class TopicDetailsPage implements OnInit {
 
   }
 
+ 
+
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
@@ -232,6 +235,11 @@ export class TopicDetailsPage implements OnInit {
     });
     await toast.present();
   }
+
+
+
+
+
 
 
 }

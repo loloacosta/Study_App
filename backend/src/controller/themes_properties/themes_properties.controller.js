@@ -1,7 +1,5 @@
 const { sequelize } = require("../../connection");
-const {
-  ThemesPropertiesModel,
-} = require("../../model/themes_properties.model");
+const { ThemesPropertiesModel } = require("../../model/themes_properties.model");
 const themesPropertiesService = require("../../service/themes_properties.service");
 
 const listar = async function (req, res) {
@@ -10,7 +8,7 @@ const listar = async function (req, res) {
     const themes_properties = await themesPropertiesService.listar(
       req.query.filtro || ""
     );
-    if (themes_properties) {
+    if (themes_properties && themes_properties.length > 0) {
       res.json({
         success: true,
         themes_properties: themes_properties,
@@ -34,7 +32,7 @@ const consultarPorCodigo = async function (req, res) {
   console.log("consultar 1 propiedad de tema por codigo controller");
   try {
     const themesPropertiesModelResult =
-      await themesPropertiesService.busquedaPorCodigo(req.params.filtro || "");
+      await themesPropertiesService.consultarPorCodigo(req.params.filtro || "");
     if (themesPropertiesModelResult) {
       res.json({
         success: true,
@@ -60,7 +58,7 @@ const consultarPorCodigoTheme = async function (req, res) {
   try {
     const themesPropertiesModelResult =
       await themesPropertiesService.consultarPorCodigoTheme(req.params.filtro || "");
-    if (themesPropertiesModelResult) {
+    if (themesPropertiesModelResult && themesPropertiesModelResult.length > 0) {
       res.json({
         success: true,
         themes_properties: themesPropertiesModelResult,
@@ -84,6 +82,14 @@ const actualizar = async function (req, res) {
   console.log("actualizar propiedad de tema controller");
   let themesPropertiesReturn = null;
   try {
+    // Verifica si req.body.id existe
+    if (!req.body.id) {
+      return res.status(400).json({
+        success: false,
+        error: 'ID es requerido para la actualización.',
+      });
+    }
+
     themesPropertiesReturn = await themesPropertiesService.actualizar(
       req.body.id,
       req.body.theme_id,
@@ -119,10 +125,35 @@ const eliminar = async function (req, res) {
   }
 };
 
+const insertar = async (req, res) => {
+  console.log("Insertar propiedad de tema controller");
+  try {
+    const { theme_id, property_name, property_value } = req.body;
+
+    const propiedadInsertada = await themesPropertiesService.insertar(
+      theme_id,
+      property_name,
+      property_value
+    );
+
+    res.status(201).json({
+      success: true,
+      themeProperty: propiedadInsertada,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al insertar la propiedad de tema',
+    });
+  }
+};
+
 module.exports = {
   listar,
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
-  consultarPorCodigoTheme
+  consultarPorCodigoTheme,
+  insertar
 };

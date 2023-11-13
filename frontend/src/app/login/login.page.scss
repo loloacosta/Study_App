@@ -2,52 +2,77 @@ ion-card.login-card {
   margin: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para mejorar el contraste */
 }
 
 ion-title.login-title {
   text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff; /* Color blanco */
 }
 
 ion-card-content.login-content {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-ion-item {
-  margin-bottom: 16px;
+ion-item.hover-effect.input-item {
+  border: 1px solid #3498db; /* Azul más sutil */
+  border-radius: 5px;
+  margin-bottom: 12px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  padding-left: 8px;
 }
 
-ion-button.login-button {
-  --border-radius: 5px;
-  --background: linear-gradient(to bottom, rgb(51, 54, 255), #00c3ff);
+ion-item.hover-effect.input-item:hover {
+  border-color: #2980b9; /* Azul más oscuro al pasar el cursor */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil al pasar el cursor */
+}
+
+ion-input {
+  width: 100%;
+  padding: 8px 0; /* Espacio interior para facilidad de interacción */
+}
+
+ion-icon {
+  color: #3498db; /* Color azul para los íconos */
+  margin-right: 8px;
+}
+
+ion-button.login-button.hover-effect {
+  --border-radius: 8px;
+  --background: #3498db; /* Azul plano moderno */
   --color: white;
   font-weight: bold;
   margin-top: 16px;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-/* Establece un margen superior responsivo */
-.login-card {
-  margin-top: 10%;
+ion-button.login-button.hover-effect:hover {
+  background-color: #2980b9; /* Azul más oscuro al pasar el cursor */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para el botón al pasar el cursor */
 }
 
-/* Personaliza el estilo del botón */
-.login-button {
-  margin-top: 10px;
-  background-color: #3880ff; /* Puedes ajustar el color según tus necesidades */
-}
 
-/* Clase para centrar vertical y horizontalmente el contenido */
+
 .ion-content-center {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh; /* Altura completa de la ventana gráfica */
+  width: 100vw; /* Ancho completo de la ventana gráfica */
+  text-align: center; /* Asegura que el texto también esté centrado */
 }
 
-
-ion-input {
-  border: 2px solid #e0e0e0;
-  border-radius: 5px;
+ion-card.login-card {
+  margin: 0; /* Eliminar el margen para permitir centrado exacto */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para mejorar el contraste */
+  width: 100%; /* O un ancho específico si deseas un tamaño fijo */
+  max-width: 400px; /* Un ancho máximo para que no se vea demasiado grande en pantallas anchas */
 }

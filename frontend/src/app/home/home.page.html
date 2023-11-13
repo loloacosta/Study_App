@@ -49,9 +49,52 @@
 
         <!-- Boton para agregar propiedad -->
         <div class="ion-padding" slot="content">
-          <ion-icon slot="end" size="large" name="add-circle"></ion-icon>
+          <ion-icon slot="end" size="large" name="add-circle" (click)="abrirModalThemesProperties(tema)"></ion-icon>
         </div>
       </ion-accordion>
     </ion-accordion-group>
   </ion-card>
+
+  <!-- ... (código existente) ... -->
+
+  <ion-modal [isOpen]="isModalThemesProperties">
+    <ng-template>
+      <ion-content class="modal-content">
+        <ion-card>
+          <ion-card-header>
+            <ion-label class="comment-author" position="floating">Agregar Propiedad</ion-label>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Agregar campos y lógica necesaria para themes_properties -->
+            <ion-item>
+              <ion-label position="floating">Nombre de la propiedad</ion-label>
+              <ion-input [(ngModel)]="newThemeProperty.propertyName" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Valor de la propiedad</ion-label>
+              <ion-input [(ngModel)]="newThemeProperty.propertyValue" type="text"></ion-input>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <div class="icon-row">
+              <ion-button (click)="cerrarModalThemesProperties()">
+                <ion-icon name="close-outline"></ion-icon>
+                Cerrar
+              </ion-button>
+              <ion-button style="margin-left: 5px;" (click)="guardarThemesProperties()">
+                <ion-icon name="add-outline"></ion-icon>
+                Agregar
+              </ion-button>
+            </div>
+          </ion-card-header>
+        </ion-card>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
 </ion-content>

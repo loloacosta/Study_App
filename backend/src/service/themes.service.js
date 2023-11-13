@@ -77,9 +77,30 @@ const eliminar = async function (codigo) {
   }
 };
 
+
+
+const guardarCambios = async function (temas) {
+  console.log("Intentando guardar cambios en temas");
+  const transaction = await sequelize.transaction(); // Inicia una nueva transacción
+  try {
+    for (const tema of temas) {
+      // Encuentra o crea el tema en una sola operación atómica
+      const [temaExistente, created] = await ThemesModel.upsert(tema, { transaction });
+      // 'created' es un booleano que indica si el tema fue creado (true) o actualizado (false)
+    }
+    await transaction.commit(); // Si todo va bien, confirma los cambios
+    return temas;
+  } catch (error) {
+    await transaction.rollback(); // Si hay un error, revierte todos los cambios
+    console.log(error);
+    throw new Error('Error al guardar cambios en temas');
+  }
+};
+
 module.exports = {
   listar,
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
+  guardarCambios
 };
