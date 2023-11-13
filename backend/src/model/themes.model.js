@@ -28,6 +28,12 @@ const ThemesModel = sequelize.define("Themes", {
     type: DataTypes.INTEGER,
     allowNull:true
   },
+
+  order_index: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
 },{
     tableName: 'themes',
     timestamps: false

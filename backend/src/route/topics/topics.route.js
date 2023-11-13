@@ -42,4 +42,11 @@ module.exports = function (app) {
     authMiddleware.auth,
     topicsController.listarSharedMeController
   );
+
+   //ordenar por seleccion
+   app.post("/topics/update-order",
+   authMiddleware.auth,
+   topicsController.actualizarOrden
+ );
+
 };

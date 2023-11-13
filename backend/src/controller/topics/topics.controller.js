@@ -186,6 +186,20 @@ const listarSharedMeController = async function (req, res) {
   }
 };
 
+const actualizarOrden = async function (req, res) {
+  try {
+    await topicsService.actualizarOrden(req.body);
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   listar,
   busquedaPorCodigo: consultarPorCodigo,
@@ -195,4 +209,5 @@ module.exports = {
   comentarTopicoController,
   compartirUsuariosController,
   listarSharedMeController,
+  actualizarOrden,
 };

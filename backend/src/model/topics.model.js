@@ -36,6 +36,12 @@ const TopicsModel = sequelize.define("Topics", {
     type: DataTypes.INTEGER,
     allowNull:true
   },
+
+  order_index: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
 },{
     tableName: 'topics',
     timestamps: false

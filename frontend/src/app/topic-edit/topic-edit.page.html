@@ -46,12 +46,14 @@
               ></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input
-                label="Color :"
-                labelPlacement="stacked"
-                placeholder="Ingrese el color"
-                [(ngModel)]="topic.color"
-              ></ion-input>
+
+
+
+              <ion-item>
+                <ion-label>Color:</ion-label>
+                <input type="color" [(ngModel)]="topic.color" />
+              </ion-item>
+
             </ion-item>
           </ion-list>
         </h2>

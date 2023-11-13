@@ -17,4 +17,11 @@ module.exports = function (app) {
   );
   // Corregir el nombre del método a "guardarCambios"
   app.post("/themes/guardarCambios", authMiddleware.auth, themesController.guardarCambios);
+
+  //ordenar por seleccion
+  app.post("/themes/update-order",
+    authMiddleware.auth,
+    themesController.actualizarOrden
+  );
+
 };

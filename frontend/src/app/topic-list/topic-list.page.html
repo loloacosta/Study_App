@@ -40,22 +40,19 @@
           <ion-reorder slot="end"></ion-reorder>
         </ion-buttons>
       </ion-item>
+
+      <!--boton guardar debajo de la lista -->
+     <div class="ion-text-center" style="padding-bottom: 5%; padding-top: 5%;">
+      <ion-button (click)="saveOrder()" shape="round">
+        Guardar
+        <ion-icon slot="end" name="save-outline"></ion-icon>
+      </ion-button>
+    </div>
+
     </ion-reorder-group>
   </ion-list>
 
-  <!-- <ion-card>
-    <ion-card-header class="comment-author">
-      {{textoTopicosCompartidos}}
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let topico of topicosCompartidosConmigo">
-          <ion-label [style.color]="topico.color">{{topico.id}} - {{topico.name}}</ion-label>
-
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card> -->
+   
 
   <ion-card>
     <ion-card-header class="comment-author">
@@ -72,15 +69,15 @@
           </ion-buttons>
         </ion-item>
       </ion-list>
+     
     </ion-card-content>
   </ion-card>
-  
-
-
-</ion-content>
+ </ion-content>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button [routerLink]="'/topic-edit/0'">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+

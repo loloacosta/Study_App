@@ -93,6 +93,22 @@ const guardarCambios = async function (req, res) {
       error: 'Error al guardar cambios en temas',
     });
   }
+
+
+};
+
+const actualizarOrden = async function (req, res) {
+  try {
+    await themesService.actualizarOrden(req.body);
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
 };
 
 module.exports = {
@@ -100,5 +116,6 @@ module.exports = {
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
-  guardarCambios
+  guardarCambios,
+  actualizarOrden,
 };

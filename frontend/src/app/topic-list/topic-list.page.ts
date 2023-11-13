@@ -192,4 +192,26 @@ export class TopicListPage implements OnInit {
         console.log(error.message);
       });
   }
+
+  saveOrder() {
+    let token = localStorage.getItem('token');
+    let config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+    const orderData = this.topicos.map((tema: any, index: any) => ({ id: tema.id, order_index: index }));
+    console.log(orderData);
+    
+    axios.post('http://localhost:3000/topics/update-order', orderData, config)
+      .then((result) => {
+        if (result.data.success) {
+          this.presentToast('Orden guardado con éxito');
+        }
+      })
+      .catch((error) => {
+        this.presentToast('Error al guardar el orden: ' + error.message);
+      });
+  }
+  
 }
