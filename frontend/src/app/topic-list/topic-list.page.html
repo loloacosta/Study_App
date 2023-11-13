@@ -28,9 +28,10 @@
       <ion-item *ngFor="let topico of topicos">
         <div class="topic-details">
           <ion-label class="topic-label" [style.color]="topico.color">{{topico.id}} - {{topico.name}}</ion-label>
-          <input type="color" [(ngModel)]="topico.color" (change)="updateColor(topico.id, topico.color)" />
+        
         </div>
         <ion-buttons slot="end">
+          <input type="color" [(ngModel)]="topico.color" />
           <ion-button [routerLink]="'/topic-details/' + topico.id">
             <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
           </ion-button>
