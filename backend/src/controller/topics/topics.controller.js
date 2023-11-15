@@ -82,7 +82,6 @@ const actualizar = async function (req, res) {
 };
 
 const eliminar = async function (req, res) {
-  console.log("eliminar topicos controller");
   try {
     await topicsService.eliminar(req.params.filtro || "");
     res.json({
@@ -95,6 +94,22 @@ const eliminar = async function (req, res) {
     });
   }
 };
+
+
+// const eliminar = async function (req, res) {
+//   console.log("eliminar topicos controller");
+//   try {
+//     await topicsService.eliminar(req.params.filtro || "");
+//     res.json({
+//       success: true,
+//     });
+//   } catch (error) {
+//     res.json({
+//       success: false,
+//       error: error.message,
+//     });
+//   }
+// };
 
 const listarComentarios = async function (req, res) {
   console.log("listar comentarios topicos controller", req, res);
@@ -200,6 +215,43 @@ const actualizarOrden = async function (req, res) {
   }
 };
 
+
+const eliminarComentarioController = async function (req, res) {
+  try {
+    await topicsService.eliminarComentario(req.params.commentId);
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+const eliminarTopicoComparidoConmigo = async function (req, res) {
+  console.log("dhjbvdfhbv", req.params.filtro);
+  try {
+    await topicsService.eliminarTopicoComparidoConmigo(req.params.filtro || "");
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
 module.exports = {
   listar,
   busquedaPorCodigo: consultarPorCodigo,
@@ -210,4 +262,6 @@ module.exports = {
   compartirUsuariosController,
   listarSharedMeController,
   actualizarOrden,
+  eliminarComentarioController,
+  eliminarTopicoComparidoConmigo
 };

@@ -13,6 +13,7 @@ export class ThemeListPage implements OnInit {
   originalTemas: any = [];
   private platform = inject(Platform);
   public alertButtons = ['Aceptar', 'Cancelar'];
+  porcentaje=0.05;
 
   constructor(
     private toastController: ToastController,
@@ -214,6 +215,13 @@ saveOrder() {
     .catch((error) => {
       this.presentToast('Error al guardar el orden: ' + error.message);
     });
+}
+
+
+cambioRango(event:any){
+  console.log(event);
+  this.porcentaje=event.detail.value/100;
+  
 }
 
   

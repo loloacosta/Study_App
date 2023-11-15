@@ -30,8 +30,6 @@ const Comments = sequelize.define("Comments", {
     timestamps: false
 });
 
-// Comments.belongsTo(TopicsModel, { foreignKey: 'topic_id', targetKey: 'id' });
-// Comments.belongsTo(UsersModel, { foreignKey: 'user_id', targetKey: 'id' });
 
 module.exports = {
     Comments

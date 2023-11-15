@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSelect, Platform, ToastController } from '@ionic/angular';
+import { AlertController, IonSelect, Platform, ToastController } from '@ionic/angular';
 import axios from 'axios';
 
 @Component({
@@ -23,6 +23,7 @@ export class TopicDetailsPage implements OnInit {
   usuariosSeleccionados: number[] = [];
   @ViewChild('selectUsuarios', { static: false }) selectUsuarios: IonSelect | undefined; // Agregamos "undefined"
   mostrarSelectUsuarios: boolean = false
+  userId=0
 
   topicsShareMe: any = []
 
@@ -30,6 +31,7 @@ export class TopicDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastController: ToastController,
+    private alertController: AlertController 
   ) { }
 
   ionViewWillEnter(): void {
@@ -39,9 +41,11 @@ export class TopicDetailsPage implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+    this.userId = parseInt(localStorage.getItem('user_id') || '0', 10);
   }
 
   ngOnInit() {
+
     this.getUsers()
 
     let token = localStorage.getItem('token');
@@ -75,7 +79,7 @@ export class TopicDetailsPage implements OnInit {
       });
 
     //listar comentarios por el topico
-    this.getTopicsComments(id)
+  this.getTopicsComments(id)
 
   }
 
@@ -106,6 +110,8 @@ export class TopicDetailsPage implements OnInit {
       });
   }
 
+
+
   formatDate(date: string): string {
     const fecha = new Date(date);
     const horas = fecha.getHours();
@@ -119,6 +125,9 @@ export class TopicDetailsPage implements OnInit {
 
     return `${horaFormateada} ${fechaFormateada}`;
   }
+
+ 
+  
 
   abrirCerrarModal() {
     this.isModal = !this.isModal
@@ -235,11 +244,59 @@ export class TopicDetailsPage implements OnInit {
     });
     await toast.present();
   }
+  
+
+  async deleteComment(commentId: string) {
+    let token = localStorage.getItem('token');
+    let config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+  
+    try {
+      const url = `http://localhost:3000/topic-details/comment/${commentId}`;
+      const response = await axios.delete(url, config);
+  
+      if (response.data.success) {
+        console.log(`Comentario con ID ${commentId} eliminado con éxito.`);
+        this.presentToast('Comentario eliminado con éxito.');
+        // Actualizar la lista de comentarios para reflejar la eliminación
+        this.getTopicsComments(this.topic.id);
+      } else {
+        console.error('Error al eliminar el comentario:', response.data.error);
+        this.presentToast('Error al eliminar el comentario.');
+      }
+    } catch (error) {
+      console.error('Error al realizar la petición:', error);
+      this.presentToast('Error al realizar la petición.');
+    }
+  }
+  
 
 
-
-
-
+  async confirmDeleteComment(commentId: string) {
+    const alert = await this.alertController.create({
+      header: 'Mensaje',
+      message: '¿Desea eliminar el comentario?',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            this.deleteComment(commentId);
+          },
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Cancelado');
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+  
 
 
 }

@@ -49,4 +49,17 @@ module.exports = function (app) {
    topicsController.actualizarOrden
  );
 
+ app.delete(
+  "/topic-details/comment/:commentId",
+  authMiddleware.auth,
+  topicsController.eliminarComentarioController
+);
+
+
+app.delete(
+  "/topics/shared-me-delete/:filtro",
+  authMiddleware.auth,
+  topicsController.eliminarTopicoComparidoConmigo
+);
+
 };

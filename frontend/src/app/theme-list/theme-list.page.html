@@ -17,7 +17,8 @@
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortAZ()">A-Z</ion-button>
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortZA()">Z-A</ion-button>
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdAsc()">ID Asc</ion-button>
-        <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdDesc()">ID Desc</ion-button>
+        <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdDesc()">ID
+          Desc</ion-button>
       </div>
     </ion-card-content>
 
@@ -25,9 +26,11 @@
       <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder($event)">
         <!-- NOMBRE Y DESCRIPCION DEL TEMA-->
         <ion-item *ngFor="let tema of temas">
-          <ion-label [routerLink]="'/theme-edit/' + tema.id">{{tema.id}} - {{tema.name}} - {{tema.description}}</ion-label>
+          <ion-label [routerLink]="'/theme-edit/' + tema.id">{{tema.id}} - {{tema.name}} -
+            {{tema.description}}</ion-label>
           <!-- EDITAR TEMA-->
-          <ion-icon style="font-size: 30px;" slot="end" name="create" [routerLink]="'/theme-edit/' + tema.id"></ion-icon>
+          <ion-icon style="font-size: 30px;" slot="end" name="create"
+            [routerLink]="'/theme-edit/' + tema.id"></ion-icon>
           <!-- ELIMINAR TEMA-->
           <ion-icon (click)="confirmDelete(tema.id)" style="font-size: 30px;" slot="end" name="trash"></ion-icon>
           <ion-reorder slot="end"></ion-reorder>
@@ -35,6 +38,22 @@
       </ion-reorder-group>
     </ion-list>
   </ion-card>
+
+<!-- cargar progreso -->
+<ion-title style="text-align: center; margin-bottom: 20px; margin-top: 20px;">ProgressBar Range</ion-title> <!-- Ajusta el margen inferior como sea necesario -->
+<ion-content style="text-align: center; padding-top: 20px;"> <!-- Añade relleno en la parte superior si es necesario -->
+  <ion-progress-bar style="display: block; margin: 0 auto;" [value]="porcentaje"> </ion-progress-bar>
+  <ion-list>
+    <ion-item>
+      <ion-range style="width: 100%;" (ionChange)="cambioRango($event)" min="1" max="100" pin="true" color="tertiary">
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">100</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
 
   <div class="ion-text-center">
     <ion-button (click)="saveOrder()" shape="round">

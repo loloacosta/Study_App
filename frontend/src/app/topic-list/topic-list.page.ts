@@ -12,6 +12,7 @@ import axios from 'axios';
 
 export class TopicListPage implements OnInit {
   topicos: any = [];
+  sharedTopicId = 0;
   topicosCompartidosConmigo: any = [];
   textoTopicosCompartidos: string = "Topicos compartidos con el Usuario:"
 
@@ -27,7 +28,6 @@ export class TopicListPage implements OnInit {
   updateColor(id: string, color: string) {
     // Implementa la lógica para actualizar el color del tópico aquí
     console.log(`Actualizando color del tópico ${id} a ${color}`);
-    // Por ejemplo, puedes hacer una solicitud HTTP a tu backend para actualizar el color
   }
   ionViewWillEnter(): void {
     //verificar si el usuario no esta logueado
@@ -44,7 +44,7 @@ export class TopicListPage implements OnInit {
   ngOnInit() {
   }
 
-  async confirmDelete(id: string) {
+  async confirmDelete(id: number, texto: string) {
     const alert = await this.alertController.create({
       header: 'Mensaje',
       message: 'Desea eliminar el registro?',
@@ -52,7 +52,11 @@ export class TopicListPage implements OnInit {
         {
           text: 'Aceptar',
           handler: () => {
-            this.deleteTopic(id);
+            texto == "eliminartopico" ? this.deleteTopic(id) : this.deleteCompartidos(id);
+
+            // if (texto == "eliminartopico") {
+            //   this.deleteTopic(id);
+            // } else this.deleteCompartidos(id);
           },
         },
         {
@@ -88,6 +92,7 @@ export class TopicListPage implements OnInit {
       });
   }
 
+
   deleteTopic(id: any) {
     let token = localStorage.getItem('token');
     let config = {
@@ -106,9 +111,14 @@ export class TopicListPage implements OnInit {
         }
       })
       .catch((error) => {
-        this.presentToast(error.message);
+        if (error.response && error.response.data.error.includes('llave foránea')) {
+          this.presentToast('Primero elimina los comentarios asociados a este tópico.');
+        } else {
+          this.presentToast(error.message);
+        }
       });
   }
+
 
   getBackButtonText() {
     const isIos = this.platform.is('ios');
@@ -202,7 +212,7 @@ export class TopicListPage implements OnInit {
     };
     const orderData = this.topicos.map((tema: any, index: any) => ({ id: tema.id, order_index: index }));
     console.log(orderData);
-    
+
     axios.post('http://localhost:3000/topics/update-order', orderData, config)
       .then((result) => {
         if (result.data.success) {
@@ -213,5 +223,40 @@ export class TopicListPage implements OnInit {
         this.presentToast('Error al guardar el orden: ' + error.message);
       });
   }
-  
+
+
+
+
+  deleteCompartidos(id_compartido: number) {
+
+
+    let token = localStorage.getItem('token');
+    let config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+    axios
+
+      .delete('http://localhost:3000/topics/shared-me-delete/' + id_compartido, config)
+      .then((result) => {
+        if (result.data.success == true) {
+          console.log(id_compartido);
+          this.getTopicsShareMe()
+          this.presentToast('Eliminado...');
+        } else {
+          this.presentToast(result.data.error);
+        }
+      })
+      .catch((error) => {
+        this.presentToast(error.message);
+      });
+  }
+
+
+
+
+
+
+
 }

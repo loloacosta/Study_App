@@ -1,6 +1,9 @@
 const { sequelize } = require("../connection");
 const { TopicsModel } = require("../model/topics.model");
 const { Comments } = require('../model/comments.model');
+const { SharedTopicsModel } = require("../model/shared_topics");
+
+
 
 const listar = async function (textoBuscar) {
   console.log("listar topicos");
@@ -78,19 +81,20 @@ const actualizar = async function (
   }
 };
 
+
 const eliminar = async function (codigo) {
-  console.log("eliminar topicos");
   try {
-    //pide tb poner topic_id (??)
-    TopicsModel.destroy(
-      { where: { id: codigo } },
-      { truncate: false }
-    );
+    await TopicsModel.destroy({ where: { id: codigo } });
   } catch (error) {
-    console.log(error);
+    if (error.name === 'SequelizeForeignKeyConstraintError') {
+      throw new Error('No se puede eliminar el tópico porque tiene comentarios asociados.');
+    }
     throw error;
   }
 };
+
+
+
 
 const listarComentarios = async function (textoBuscar) {
   console.log("listar comentarios topicos service");
@@ -153,9 +157,10 @@ const compartirUsuariosService = async function (dataSharedTopics) {
 
 const listarSharedMeService = async function (userId) {
   console.log("listar topicos");
+  
   try {
     const topics = await sequelize.query(`
-      SELECT Distinct t.*, u.name as nombre, u.last_name as apellido
+      SELECT Distinct t.*, st.id as id_compartido, u.name as nombre, u.last_name as apellido
       FROM shared_topics st
       INNER JOIN topics t ON st.topic_id = t.id
       INNER JOIN users u ON u.id = st.user_shared_id
@@ -189,6 +194,41 @@ const actualizarOrden = async function (orderData) {
   }
 };
 
+const eliminarComentario = async function (commentId) {
+  try {
+    await Comments.destroy({ where: { id: commentId } });
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+// const eliminarTopicoCompartido = async function (sharedTopicId) {
+//   try {
+//     await SharedTopicsModel.destroy({ where: { id: sharedTopicId } });
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+const eliminarTopicoComparidoConmigo = async function (codigo) {
+  console.log("kasjhasd");
+  try {
+    await sequelize.query(`
+      DELETE FROM shared_topics
+      WHERE id = :codigo
+    `, {
+      replacements: { codigo: codigo },
+      type: sequelize.QueryTypes.DELETE
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+
 
 module.exports = {
   listar,
@@ -200,4 +240,6 @@ module.exports = {
   compartirUsuariosService,
   listarSharedMeService,
   actualizarOrden,
+  eliminarComentario,
+  eliminarTopicoComparidoConmigo
 };

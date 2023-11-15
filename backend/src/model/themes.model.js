@@ -34,6 +34,7 @@ const ThemesModel = sequelize.define("Themes", {
     allowNull: false,
     defaultValue: 0
   },
+  
 },{
     tableName: 'themes',
     timestamps: false

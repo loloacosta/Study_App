@@ -24,9 +24,9 @@
       </div>
     </ion-card-header>
 
-    <ion-card-content>
-      <p>Color: {{ topic.color }}</p>
-      <p>Fecha de Creación: {{ topic.create_date }}</p>
+    <ion-card-content>  
+      <p>Color: <input type="color" [(ngModel)]="topic.color" /></p>
+      <p>Fecha de Creación: {{ formatDate(topic.create_date) }}</p>
     </ion-card-content>
   </ion-card>
 
@@ -42,6 +42,11 @@
           <div class="comment-text">
             {{ comentario.text }}
           </div>
+          <ion-buttons slot="end" *ngIf="comentario.user_id === userId">
+            <ion-button (click)="confirmDeleteComment(comentario.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -126,7 +131,7 @@
         </ion-card-header>
         <ion-card-content>
           <p>{{topic.name}}</p>
-          <p>Color: {{ topic.color }}</p>
+          <p>Color: <input type="color" [(ngModel)]="topic.color" /></p>
           <p>Fecha de Creación: {{ topic.create_date }}</p>
         </ion-card-content>
       </ion-card>
