@@ -34,14 +34,27 @@
           <!-- ELIMINAR TEMA-->
           <ion-icon (click)="confirmDelete(tema.id)" style="font-size: 30px;" slot="end" name="trash"></ion-icon>
           <ion-reorder slot="end"></ion-reorder>
+
+            <!-- acceder a las propiedades a travez de un modal -->
+            <ion-button [routerLink]="'/theme-details/' + temas.id">
+            <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+          </ion-button>
         </ion-item>
+        
       </ion-reorder-group>
     </ion-list>
   </ion-card>
 
+  <div class="ion-text-center">
+    <ion-button (click)="saveOrder()" shape="round">
+      Guardar
+      <ion-icon slot="end" name="save-outline"></ion-icon>
+    </ion-button>
+  </div>
+
 <!-- cargar progreso -->
-<ion-title style="text-align: center; margin-bottom: 20px; margin-top: 20px;">ProgressBar Range</ion-title> <!-- Ajusta el margen inferior como sea necesario -->
-<ion-content style="text-align: center; padding-top: 20px;"> <!-- Añade relleno en la parte superior si es necesario -->
+<!-- <ion-title style="text-align: center; margin-bottom: 20px; margin-top: 20px;">ProgressBar Range</ion-title> 
+<ion-content style="text-align: center; padding-top: 20px;"> 
   <ion-progress-bar style="display: block; margin: 0 auto;" [value]="porcentaje"> </ion-progress-bar>
   <ion-list>
     <ion-item>
@@ -51,16 +64,12 @@
       </ion-range>
     </ion-item>
   </ion-list>
-</ion-content>
+
+</ion-content> -->
 
 
 
-  <div class="ion-text-center">
-    <ion-button (click)="saveOrder()" shape="round">
-      Guardar
-      <ion-icon slot="end" name="save-outline"></ion-icon>
-    </ion-button>
-  </div>
+ 
 
   <!-- AGREGAR TEMA-->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">

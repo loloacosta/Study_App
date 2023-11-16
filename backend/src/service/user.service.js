@@ -81,6 +81,23 @@ const eliminar = async function (codigo) {
     throw error;
   }
 };
+const newPassword = async function (userId) {
+  try {
+    // Generar una contraseña aleatoria de 6 dígitos
+    const randomPassword = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Actualizar la contraseña en la base de datos
+    await sequelize.query(`UPDATE users SET password = '${randomPassword}' WHERE id = ${userId}`);
+
+    // Retornar la nueva contraseña
+    return randomPassword;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+
 
 
 //lo que esta entre la llave es json
@@ -89,4 +106,5 @@ module.exports = {
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
+  newPassword,
 };

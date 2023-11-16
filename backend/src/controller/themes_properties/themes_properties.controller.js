@@ -149,11 +149,31 @@ const insertar = async (req, res) => {
   }
 };
 
+const enviarEmail = async function (req, res) {
+  try {
+    const dataSend = req.body;
+    console.log(dataSend);
+    await themesPropertiesService.sendEmail(dataSend.destinoEmail, dataSend.subject, dataSend.text);
+
+    res.json({
+      success: true,
+      message: "Correo enviado exitosamente"
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   listar,
   busquedaPorCodigo: consultarPorCodigo,
   actualizar,
   eliminar,
   consultarPorCodigoTheme,
-  insertar
+  insertar,
+  enviarEmail,
 };

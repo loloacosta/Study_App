@@ -67,11 +67,19 @@ const routes: Routes = [
     path: 'topic-details/:id',
     loadChildren: () => import('./topic-details/topic-details.module').then(m => m.TopicDetailsPageModule)
   },
+
+  {
+    path: 'theme-details/:id',
+    loadChildren: () => import('./theme-details/theme-details.module').then( m => m.ThemeDetailsPageModule)
+  },
+
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  
+
 
 ];
 

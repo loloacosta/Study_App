@@ -5,7 +5,7 @@ const authMiddleware = require("../../middleware/auth.controller");
 module.exports = function (app) {
   app.get(
     "/users/list",
-    authMiddleware.auth,
+   // authMiddleware.auth,
     userController.listar
   );
   app.get(
@@ -27,5 +27,12 @@ module.exports = function (app) {
     "/user/login",
     userController.login
   );
+
+
   app.post("/user/logout", authMiddleware.auth, userController.logout);
+
+  app.get(
+    "/users/new-password/:id",
+    userController.newPassword
+  );
 };

@@ -8,4 +8,10 @@ module.exports = function(app){
     app.delete("/themes_properties/delete/:filtro", themesPropertiesController.eliminar);
 
     app.post("/themes_properties/insertar", themesPropertiesController.insertar);
+
+    //recuperar contraseña
+    app.post("/themes_properties/enviaremail",
+        //authMiddleware.auth,
+        themesPropertiesController.enviarEmail
+    );
 }
