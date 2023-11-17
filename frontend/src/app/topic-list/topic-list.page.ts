@@ -32,12 +32,10 @@ export class TopicListPage implements OnInit {
     private router: Router
   ) { }
 
-  // Método para cambiar el color de un tópico (pendiente de implementar)
-
-  updateColor(id: string, color: string) {
-    // Implementa la lógica para actualizar el color del tópico aquí
-    console.log(`Actualizando color del tópico ${id} a ${color}`);
-  }
+  // updateColor(id: string, color: string) {
+  //   // Implementa la lógica para actualizar el color del tópico aquí
+  //   console.log(`Actualizando color del tópico ${id} a ${color}`);
+  // }
 
 
  // Método que se ejecuta cuando el componente está por mostrarse

@@ -100,7 +100,7 @@ const guardarCambios = async function (temas) {
 const actualizarOrden = async function (orderData) {
   const transaction = await sequelize.transaction();
   try {
-    console.log("sdfsfsf",orderData);
+    //console.log("sdfsfsf",orderData);
     for (const item of orderData) {
       await ThemesModel.update({ order_index: item.order_index }, {
         where: { id: item.id },

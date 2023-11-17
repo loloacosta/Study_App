@@ -21,34 +21,34 @@
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortAZ()">A-Z</ion-button>
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortZA()">Z-A</ion-button>
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdAsc()">ID Asc</ion-button>
-        <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdDesc()">ID Desc</ion-button>
+        <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortIdDesc()">ID
+          Desc</ion-button>
       </div>
     </ion-card-content>
 
     <!-- Lista de temas con la capacidad de reordenarlos -->
     <ion-list>
       <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder($event)">
-        <!-- Itera sobre cada tema para mostrar su nombre y descripción -->
+
         <ion-item *ngFor="let tema of temas">
-          <!-- Enlace para editar el tema -->
-          <ion-label [routerLink]="'/theme-edit/' + tema.id">{{tema.id}} - {{tema.name}} - {{tema.description}}</ion-label>
-          <!-- Botón para editar el tema -->
-          <ion-icon style="font-size: 25px;" slot="end" name="create" [routerLink]="'/theme-edit/' + tema.id"></ion-icon>
-          <!-- Botón para eliminar el tema -->
-          <ion-icon (click)="confirmDelete(tema.id)" style="font-size: 25px;" slot="end" name="trash"></ion-icon>
-          <!-- Control para reordenar el tema en la lista -->
+          <ion-label [routerLink]="'/theme-edit/' + tema.id">
+            {{ tema.id }} - {{ tema.name }} - {{ tema.description }}
+          </ion-label>
+          <!-- Íconos como parte de botones para acciones -->
+          <ion-buttons slot="end">
+            <ion-button fill="clear" [routerLink]="'/theme-edit/' + tema.id">
+              <ion-icon slot="icon-only" name="create" class="edit-icon"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear"  (click)="confirmDelete(tema.id)">
+              <ion-icon slot="icon-only" name="trash" class="delete-icon"></ion-icon>
+            </ion-button>
+            <ion-button class="view-icon" class="acercar" fill="clear"  (click)="cambiarPantalla(tema.id)">
+              <ion-icon  slot="icon-only" name="eye-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
           <ion-reorder slot="end"></ion-reorder>
-          <!-- Visualizar -->
-          <!-- <ion-button [routerLink]="'/theme-details/'+tema.id">
-            <ion-icon slot="icon-only" name="eye-outline" style="font-size: 30px;"></ion-icon>
-          </ion-button> -->
-
-          <ion-button (click)="cambiarPantalla(tema.id)" >
-            <ion-icon slot="icon-only" name="eye-outline" style="font-size: 30px;"></ion-icon>
-          </ion-button>
-
-
         </ion-item>
+
       </ion-reorder-group>
     </ion-list>
   </ion-card>

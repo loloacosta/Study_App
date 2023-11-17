@@ -1,26 +1,7 @@
-ion-item {
-  --inner-padding-end: 0;
-  --background: transparent;
-}
-
+/* Estilos globales */
 ion-label {
   margin-top: 12px;
   margin-bottom: 12px;
-}
-
-ion-item h2 {
-  font-weight: 600;
-}
-
-ion-item .date {
-  float: right;
-  align-items: center;
-  display: flex;
-}
-
-ion-item ion-icon {
-  font-size: 42px;
-  margin-right: 8px;
 }
 
 ion-item ion-note {
@@ -46,3 +27,54 @@ p {
   font-size: 15px;
 }
 
+/* Estilos para ion-item */
+ion-item {
+  --inner-padding-end: 0;
+  --background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 0 !important; /* Asegurar que no haya padding a la derecha */
+}
+
+/* Estilos específicos para los íconos dentro de los ion-item */
+.acercar {
+  font-size: 25px;
+  color: inherit;
+  margin-left: 2px !important; /* Reducir espacio entre íconos */
+}
+
+.edit-icon {
+  color: #ffce00 !important; /* Color amarillo para el ícono de editar */
+}
+
+.delete-icon {
+  color: #ff3b30 !important; /* Color rojo para el ícono de eliminar */
+}
+
+.view-icon {
+  color: #4067DF !important; /* Color negro para el ícono de ver */
+}
+
+/* Ajustes para el ion-reorder si es necesario */
+ion-reorder {
+  margin-left: 2px !important; /* Reducir espacio entre íconos */
+}
+
+/* Definición de colores personalizados */
+:root {
+  --ion-color-warning: #ffce00; /* Color amarillo para el ícono de editar */
+  --ion-color-danger: #ff3b30;  /* Color rojo para el ícono de eliminar */
+  --ion-color-view: ;    /* Color negro para el ícono de ver */
+}
+
+/* Estilo común para todos los iconos */
+ion-icon {
+  font-size: 25px; /* Tamaño común para todos los íconos */
+}
+
+/* Alinear los botones horizontalmente sin espacio adicional */
+ion-buttons {
+  display: flex;
+  gap: 2px; /* Reducir espacio entre botones */
+}

@@ -27,6 +27,8 @@
     </ion-card-content>
   </ion-card>
 
+
+
   <!-- Lista de tópicos con la funcionalidad de reordenación -->
   <ion-list>
     <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder($event)">
@@ -39,10 +41,12 @@
         <ion-buttons slot="end">
           <!-- Selector de color para cambiar el color asociado al tópico -->
           <input type="color" [(ngModel)]="topico.color" />
+
           <!-- Botón para ver detalles del tópico -->
           <ion-button [routerLink]="'/topic-details/' + topico.id">
             <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
           </ion-button>
+          
           <!-- Botón para confirmar la eliminación del tópico -->
           <ion-button (click)="confirmDelete(topico.id, 'eliminartopico')">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
