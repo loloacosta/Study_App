@@ -1,7 +1,9 @@
 <ion-router-outlet></ion-router-outlet>
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Título de la aplicación en la barra de navegación -->
     <ion-title>Study App-Luis</ion-title>
+    <!-- Botón para cerrar sesión con un ícono de salida -->
     <ion-buttons slot="end">
       <ion-button (click)="cerrarSesion()">
         <ion-icon name="log-out-outline"></ion-icon>
@@ -10,22 +12,27 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Sección para realizar una acción de "refresh" -->
 <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
   <ion-refresher-content></ion-refresher-content>
 </ion-refresher>
 
+<!-- Contenido principal de la página, condicionalmente se muestra si existen temas -->
 <ion-content [fullscreen]="true" *ngIf="temas">
-  <!-- Botones de Navegacion -->
+  <!-- Botones de navegación en forma de pestañas -->
   <ion-tabs>
     <ion-tab-bar slot="bottom">
+      <!-- Pestaña para listar los tópicos -->
       <ion-tab-button [routerLink]="'/topic-list'">
         <ion-icon name="document-text-outline"></ion-icon>
         Topicos
       </ion-tab-button>
+      <!-- Pestaña para listar los temas -->
       <ion-tab-button [routerLink]="'/theme-list'">
         <ion-icon name="document-text-outline"></ion-icon>
         Temas
       </ion-tab-button>
+      <!-- Pestaña para listar los usuarios -->
       <ion-tab-button [routerLink]="'/user-list'">
         <ion-icon name="person-circle-outline"></ion-icon>
         Usuarios
@@ -33,21 +40,24 @@
     </ion-tab-bar>
   </ion-tabs>
 
+  <!-- Sección para mostrar tarjetas de temas y sus propiedades -->
   <ion-card>
     <ion-accordion-group>
-      <!-- Impresion de tema -->
+      <!-- Iteración a través de los temas para mostrarlos en forma de acordeón -->
       <ion-accordion *ngFor="let tema of temas">
+        <!-- Encabezado del acordeón con información del tema -->
         <ion-item slot="header" color="light">
           <ion-label>{{tema.id}} - {{tema.name}} - {{tema.description}}</ion-label>
         </ion-item>
-        <!-- Impresion de propiedades del tema -->
+        <!-- Iteración a través de las propiedades de los temas -->
         <div *ngFor="let tema_propiedad of temas_propiedades" slot="content">
+          <!-- Muestra las propiedades relacionadas con el tema actual -->
           <label *ngIf="tema_propiedad.theme_id===tema.id" class="ion-padding">
             {{tema_propiedad.theme_id}} - {{tema_propiedad.property_name}}
           </label>
         </div>
 
-        <!-- Boton para agregar propiedad -->
+        <!-- Botón para agregar una propiedad al tema actual -->
         <div class="ion-padding" slot="content">
           <ion-icon slot="end" size="large" name="add-circle" (click)="abrirModalThemesProperties(tema)"></ion-icon>
         </div>
@@ -55,17 +65,18 @@
     </ion-accordion-group>
   </ion-card>
 
-  <!-- ... (código existente) ... -->
 
+  <!-- Modal para agregar propiedades a los temas -->
   <ion-modal [isOpen]="isModalThemesProperties">
     <ng-template>
       <ion-content class="modal-content">
         <ion-card>
           <ion-card-header>
+            <!-- Encabezado del modal para agregar una propiedad -->
             <ion-label class="comment-author" position="floating">Agregar Propiedad</ion-label>
           </ion-card-header>
           <ion-card-content>
-            <!-- Agregar campos y lógica necesaria para themes_properties -->
+            <!-- Formulario para agregar nombre y valor de la propiedad -->
             <ion-item>
               <ion-label position="floating">Nombre de la propiedad</ion-label>
               <ion-input [(ngModel)]="newThemeProperty.propertyName" type="text"></ion-input>
@@ -79,6 +90,7 @@
 
         <ion-card>
           <ion-card-header>
+            <!-- Botones para cerrar el modal o agregar la propiedad -->
             <div class="icon-row">
               <ion-button (click)="cerrarModalThemesProperties()">
                 <ion-icon name="close-outline"></ion-icon>
@@ -95,6 +107,4 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-
-
 </ion-content>

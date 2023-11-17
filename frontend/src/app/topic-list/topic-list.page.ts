@@ -11,36 +11,48 @@ import axios from 'axios';
 
 
 export class TopicListPage implements OnInit {
-  topicos: any = [];
-  sharedTopicId = 0;
-  topicosCompartidosConmigo: any = [];
-  textoTopicosCompartidos: string = "Topicos compartidos con el Usuario:"
+   // Arreglo para almacenar los tópicos obtenidos del servidor
+   topicos: any = [];
+   // ID del tópico compartido seleccionado
+   sharedTopicId = 0;
+   // Arreglo para almacenar los tópicos compartidos con el usuario
+   topicosCompartidosConmigo: any = [];
+   // Texto para mostrar cuando hay tópicos compartidos
+   textoTopicosCompartidos: string = "Topicos compartidos con el Usuario:"
 
+  // Servicio de plataforma para detectar en qué plataforma está corriendo la app
   private platform = inject(Platform);
+  // Botones de alerta que se usarán en las confirmaciones
   public alertButtons = ['Aceptar', 'Cancelar'];
 
+    // Constructor del componente, inyecta los servicios necesarios
   constructor(
     private toastController: ToastController,
     private alertController: AlertController,
     private router: Router
   ) { }
 
+  // Método para cambiar el color de un tópico (pendiente de implementar)
+
   updateColor(id: string, color: string) {
     // Implementa la lógica para actualizar el color del tópico aquí
     console.log(`Actualizando color del tópico ${id} a ${color}`);
   }
+
+
+ // Método que se ejecuta cuando el componente está por mostrarse
   ionViewWillEnter(): void {
-    //verificar si el usuario no esta logueado
     let token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
       return;
     }
+    // Obtener tópicos y tópicos compartidos al entrar en la vista
     this.getTopics();
-    this.getTopicsShareMe()
-
+    this.getTopicsShareMe();
   }
 
+    // Método que se ejecuta en la inicialización del componente
   ngOnInit() {
   }
 
@@ -52,11 +64,8 @@ export class TopicListPage implements OnInit {
         {
           text: 'Aceptar',
           handler: () => {
-            texto == "eliminartopico" ? this.deleteTopic(id) : this.deleteCompartidos(id);
-
-            // if (texto == "eliminartopico") {
-            //   this.deleteTopic(id);
-            // } else this.deleteCompartidos(id);
+            // Determina qué tipo de eliminación realizar basado en el texto
+            texto == "eliminartopico" ? this.deleteTopic(id) : this.deleteCompartidos(id);    
           },
         },
         {
@@ -70,6 +79,7 @@ export class TopicListPage implements OnInit {
     await alert.present();
   }
 
+  // Método para obtener los tópicos del servidor
   getTopics() {
     let token = localStorage.getItem('token');
     let config = {
@@ -92,7 +102,7 @@ export class TopicListPage implements OnInit {
       });
   }
 
-
+  // Método para eliminar un tópico utilizando su ID
   deleteTopic(id: any) {
     let token = localStorage.getItem('token');
     let config = {
@@ -177,6 +187,7 @@ export class TopicListPage implements OnInit {
     this.topicos.sort((a: any, b: any) => b.id - a.id);
   }
 
+  // Método para obtener los tópicos compartidos con el usuario
   getTopicsShareMe() {
     const user_id = localStorage.getItem('user_id');
 

@@ -49,6 +49,32 @@ const consultarPorCodigoTheme = async function (codigo) {
   }
 };
 
+
+// const consultarPorCodigoTheme = async function (codigo) {
+  
+//   console.log("consultar 1 propiedad de tema por codigo del tema: " + codigo);
+//   try {
+
+//     // :codigo linea 46
+//     const result = await sequelize.query(
+//       `SELECT * FROM themes_properties 
+//       WHERE theme_id = ${codigo}
+//       ORDER BY id`
+//     );
+//     const themes_properties = result[0];
+
+//     if (themes_properties.length>0) {
+//       return themes_properties;
+//     } else {
+//       return[];
+//     }
+    
+
+//   } catch (error) {
+//     console.log("Error en consultarPorCodigoTheme",error);
+//     throw error;
+//   }
+// };
 const actualizar = async function (id, theme_id, property_name, property_value) {
   console.log("actualizar propiedad de tema");
   let themesPropertiesReturn = null;

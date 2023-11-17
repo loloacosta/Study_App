@@ -40,7 +40,32 @@ export class ThemeListPage implements OnInit {
 // Ciclo de vida que se ejecuta en la inicialización del componente
   ngOnInit() {}
 
- 
+  // Función para confirmar la eliminación de un tema
+  async confirmDelete(id: string) {
+    // Crea una alerta para la confirmación
+    const alert = await this.alertController.create({
+      header: 'Mensaje',
+      message: 'Desea eliminar el registro?',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            // Si se acepta, llama a la función para eliminar el tema
+            this.deleteTheme(id);
+          },
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            // Si se cancela, simplemente registra el evento
+            console.log('Cancelado');
+          },
+        },
+      ],
+    });
+    // Presenta la alerta al usuario
+    await alert.present();
+  }
 
   // Función para obtener los temas desde el servidor
   async getThemes() {
@@ -69,33 +94,6 @@ export class ThemeListPage implements OnInit {
     }
   }
 
-
-   // Función para confirmar la eliminación de un tema
-   async confirmDelete(id: string) {
-    // Crea una alerta para la confirmación
-    const alert = await this.alertController.create({
-      header: 'Mensaje',
-      message: 'Desea eliminar el registro?',
-      buttons: [
-        {
-          text: 'Aceptar',
-          handler: () => {
-            // Si se acepta, llama a la función para eliminar el tema
-            this.deleteTheme(id);
-          },
-        },
-        {
-          text: 'Cancelar',
-          handler: () => {
-            // Si se cancela, simplemente registra el evento
-            console.log('Cancelado');
-          },
-        },
-      ],
-    });
-    // Presenta la alerta al usuario
-    await alert.present();
-  }
   // Función para eliminar un tema utilizando su ID
   deleteTheme(id: any) {
     let token = localStorage.getItem('token');
@@ -207,11 +205,6 @@ export class ThemeListPage implements OnInit {
         // Si hay un error, muestra un mensaje de error
         this.presentToast('Error al guardar el orden: ' + error.message);
       });
-  }
-
-
-  cambiarPantalla(id:any){
-    this.router.navigate(['/theme-details/'+ id])
   }
 
   // Función para manejar el cambio en la barra de rango (no implementado en el HTML actual)

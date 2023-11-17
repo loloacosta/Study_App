@@ -9,33 +9,32 @@ import axios from 'axios';
   styleUrls: ['./topic-details.page.scss'],
 })
 export class TopicDetailsPage implements OnInit {
-  topic: any;
-  private activatedRoute = inject(ActivatedRoute);
-  accion = 'Agregar Topico';
-  topicoComentarios: any = [];
-  Comentarios: string = "Comentarios";
-  isModal: boolean = false;
-  newComentario: string = ""
-  private platform = inject(Platform);
+  topic: any; // Variable para almacenar los detalles del tópico actual
+  private activatedRoute = inject(ActivatedRoute); // Inyección de dependencia para ActivatedRoute
+  accion = 'Agregar Topico'; // Variable para mostrar la acción (agregar o detalles)
+  topicoComentarios: any = []; // Arreglo para almacenar los comentarios del tópico
+  Comentarios: string = "Comentarios"; // Título de la sección de comentarios
+  isModal: boolean = false; // Variable para controlar la apertura/cierre del modal de comentarios
+  newComentario: string = ""; // Nuevo comentario a agregar
+  private platform = inject(Platform); // Inyección de dependencia para Platform
 
+  usuarios: any = []; // Arreglo para almacenar la lista de usuarios
+  usuariosSeleccionados: number[] = []; // Arreglo para almacenar usuarios seleccionados para compartir
+  @ViewChild('selectUsuarios', { static: false }) selectUsuarios: IonSelect | undefined; // Referencia al componente IonSelect (selectUsuarios)
+  mostrarSelectUsuarios: boolean = false; // Variable para controlar la apertura/cierre del modal de compartir usuarios
+  userId = 0; // ID del usuario actualmente logueado
 
-  usuarios: any = [];
-  usuariosSeleccionados: number[] = [];
-  @ViewChild('selectUsuarios', { static: false }) selectUsuarios: IonSelect | undefined; // Agregamos "undefined"
-  mostrarSelectUsuarios: boolean = false
-  userId=0
-
-  topicsShareMe: any = []
+  topicsShareMe: any = []; // Arreglo para almacenar tópicos compartidos con el usuario
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private toastController: ToastController,
-    private alertController: AlertController 
+    private alertController: AlertController
   ) { }
 
   ionViewWillEnter(): void {
-    //verificar si el usuario no esta logueado
+    // Verificar si el usuario no está logueado
     let token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
@@ -45,8 +44,8 @@ export class TopicDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-
-    this.getUsers()
+    // Obtener la lista de usuarios
+    this.getUsers();
 
     let token = localStorage.getItem('token');
     let config = {
@@ -54,19 +53,20 @@ export class TopicDetailsPage implements OnInit {
         Authorization: token,
       },
     };
-    //con este comando se recupera el id que se pasa
+
+    // Obtener el ID del tópico de la URL
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    // this.message = this.data.getMessageById(parseInt(id, 10));
+
+    // Realizar una solicitud HTTP para obtener los detalles del tópico
     axios
       .get('http://localhost:3000/topics/buscarPorCodigo/' + id, config)
       .then((result) => {
         if (result.data.success == true) {
           if (id !== '0') {
-            this.accion = 'Detalles Topico';
+            this.accion = 'Detalles Tópico'; // Cambiar la acción a "Detalles" si el ID no es '0'
           }
           if (result.data.topic != null) {
             this.topic = result.data.topic;
-
           } else {
             this.topic = {};
           }
@@ -78,11 +78,11 @@ export class TopicDetailsPage implements OnInit {
         console.log(error.message);
       });
 
-    //listar comentarios por el topico
-  this.getTopicsComments(id)
-
+    // Obtener los comentarios relacionados con el tópico
+    this.getTopicsComments(id);
   }
 
+  // Método para obtener los comentarios relacionados con el tópico
   getTopicsComments(topic_id: string) {
     let token = localStorage.getItem('token');
     let config = {
@@ -90,6 +90,7 @@ export class TopicDetailsPage implements OnInit {
         Authorization: token,
       },
     };
+
     axios
       .get('http://localhost:3000/topic-details/' + topic_id, config)
       .then((result) => {
@@ -97,10 +98,9 @@ export class TopicDetailsPage implements OnInit {
           this.topicoComentarios = result.data.topicos;
 
           if (this.topicoComentarios.length == 0) {
-            this.Comentarios = "Sin Comentarios"
-            console.log(this.topicoComentarios.lenght);
+            this.Comentarios = "Sin Comentarios"; // Cambiar el título a "Sin Comentarios" si no hay comentarios
+            console.log(this.topicoComentarios.length);
           }
-
         } else {
           console.log(result.data);
         }
@@ -110,8 +110,7 @@ export class TopicDetailsPage implements OnInit {
       });
   }
 
-
-
+  // Método para formatear una fecha en un formato específico
   formatDate(date: string): string {
     const fecha = new Date(date);
     const horas = fecha.getHours();
@@ -126,13 +125,12 @@ export class TopicDetailsPage implements OnInit {
     return `${horaFormateada} ${fechaFormateada}`;
   }
 
- 
-  
-
+  // Método para abrir o cerrar el modal de comentarios
   abrirCerrarModal() {
-    this.isModal = !this.isModal
+    this.isModal = !this.isModal;
   }
 
+  // Método para guardar un comentario
   guardarComentario() {
     const user_id = localStorage.getItem('user_id');
     const comentarioTopico = {
@@ -151,26 +149,26 @@ export class TopicDetailsPage implements OnInit {
     axios.post('http://localhost:3000/topics-details/comment', comentarioTopico, config)
       .then((result) => {
         if (result.data.success === true) {
-          this.presentToast("Comentario agregado.")
-          this.newComentario = ''
-          this.abrirCerrarModal()
-          this.getTopicsComments(this.topic.id)
+          this.presentToast("Comentario agregado.");
+          this.newComentario = '';
+          this.abrirCerrarModal();
+          this.getTopicsComments(this.topic.id); // Actualizar la lista de comentarios después de agregar uno
         } else {
           console.log(result.data.error);
-
         }
       })
       .catch((error) => {
         console.log(error);
-
       });
   }
 
+  // Método para obtener el texto personalizado en el botón de retroceso
   getBackButtonText() {
     const isIos = this.platform.is('ios');
     return isIos ? 'Inbox' : '';
   }
 
+  // Método para obtener la lista de usuarios
   getUsers() {
     let token = localStorage.getItem('token');
     let config = {
@@ -178,6 +176,7 @@ export class TopicDetailsPage implements OnInit {
         Authorization: token,
       },
     };
+
     axios
       .get('http://localhost:3000/users/list', config)
       .then((result) => {
@@ -192,6 +191,7 @@ export class TopicDetailsPage implements OnInit {
       });
   }
 
+  // Método para abrir el modal de selección de usuarios para compartir
   compartir(topico: any) {
     this.mostrarSelectUsuarios = true;
     if (this.selectUsuarios) {
@@ -199,18 +199,20 @@ export class TopicDetailsPage implements OnInit {
     }
   }
 
+  // Método para abrir o cerrar el modal de selección de usuarios para compartir
   abrirCerrarModalCompartir() {
-    this.mostrarSelectUsuarios = !this.mostrarSelectUsuarios
+    this.mostrarSelectUsuarios = !this.mostrarSelectUsuarios;
   }
 
+  // Método para grabar la acción de compartir con usuarios seleccionados
   grabarCompartir() {
-    this.abrirCerrarModalCompartir()
+    this.abrirCerrarModalCompartir();
     const user_id = localStorage.getItem('user_id');
     const datosShareTopics = {
       user_shared_id: user_id,
       topic_id: this.topic.id,
-      user_destination_ids: this.usuariosSeleccionados
-    }
+      user_destination_ids: this.usuariosSeleccionados,
+    };
 
     let token = localStorage.getItem('token');
     let config = {
@@ -222,20 +224,17 @@ export class TopicDetailsPage implements OnInit {
     axios.post('http://localhost:3000/topics-shared', datosShareTopics, config)
       .then((result) => {
         if (result.data.success === true) {
-          this.presentToast("Topico compartido.")
+          this.presentToast("Tópico compartido.");
         } else {
           console.log(result.data.error);
-
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
   }
 
- 
-
+  // Método para mostrar un mensaje emergente (toast)
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
@@ -244,8 +243,8 @@ export class TopicDetailsPage implements OnInit {
     });
     await toast.present();
   }
-  
 
+  // Método para eliminar un comentario
   async deleteComment(commentId: string) {
     let token = localStorage.getItem('token');
     let config = {
@@ -253,11 +252,11 @@ export class TopicDetailsPage implements OnInit {
         Authorization: token,
       },
     };
-  
+
     try {
       const url = `http://localhost:3000/topic-details/comment/${commentId}`;
       const response = await axios.delete(url, config);
-  
+
       if (response.data.success) {
         console.log(`Comentario con ID ${commentId} eliminado con éxito.`);
         this.presentToast('Comentario eliminado con éxito.');
@@ -272,9 +271,8 @@ export class TopicDetailsPage implements OnInit {
       this.presentToast('Error al realizar la petición.');
     }
   }
-  
 
-
+  // Método para mostrar un cuadro de diálogo de confirmación antes de eliminar un comentario
   async confirmDeleteComment(commentId: string) {
     const alert = await this.alertController.create({
       header: 'Mensaje',
@@ -296,7 +294,4 @@ export class TopicDetailsPage implements OnInit {
     });
     await alert.present();
   }
-  
-
-
 }

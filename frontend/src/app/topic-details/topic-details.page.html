@@ -1,21 +1,28 @@
+<!-- Encabezado de la página -->
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Botón de retroceso con texto personalizado -->
     <ion-buttons slot="start">
       <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
     </ion-buttons>
+    <!-- Título de la página -->
     <ion-title>Detalles del Tópico</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Contenido principal de la página -->
 <ion-content [fullscreen]="true">
+  <!-- Encabezado colapsable cuando se desplaza hacia abajo -->
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">topic-details</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <!-- Tarjeta de detalles del tópico actual (visible si existe un tópico) -->
   <ion-card *ngIf="topic">
     <ion-card-header>
+      <!-- Encabezado de la tarjeta con nombre del tópico y botón de edición -->
       <div class="header-content">
         <span class="comment-author">{{ topic.name }}</span>
         <ion-button color="transparent" [routerLink]="'/topic-edit/' + topic.id" style="--box-shadow: none;">
@@ -24,25 +31,31 @@
       </div>
     </ion-card-header>
 
-    <ion-card-content>  
+    <ion-card-content>
+      <!-- Contenido de la tarjeta con detalles del tópico -->
       <p>Color: <input type="color" [(ngModel)]="topic.color" /></p>
       <p>Fecha de Creación: {{ formatDate(topic.create_date) }}</p>
     </ion-card-content>
   </ion-card>
 
+  <!-- Tarjeta de comentarios (visible si existe un tópico) -->
   <ion-card *ngIf="topic">
     <ion-card-header class="comment-author" style="padding-bottom: 0;">{{Comentarios}}</ion-card-header>
     <ion-card-content>
       <ion-list>
+        <!-- Lista de comentarios iterada a través de *ngFor -->
         <ion-item class="comment" *ngFor="let comentario of topicoComentarios">
           <div class="comment-info">
+            <!-- Información del autor del comentario y fecha de creación -->
             <span class="comment-author">{{ comentario.name }} {{ comentario.last_name }}</span>
             <span class="comment-date">{{ formatDate(comentario.created_at) }}</span>
           </div>
           <div class="comment-text">
+            <!-- Texto del comentario -->
             {{ comentario.text }}
           </div>
           <ion-buttons slot="end" *ngIf="comentario.user_id === userId">
+            <!-- Botón para eliminar un comentario (si es el autor del comentario) -->
             <ion-button (click)="confirmDeleteComment(comentario.id)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
@@ -52,14 +65,16 @@
     </ion-card-content>
   </ion-card>
 
-
+  <!-- Tarjeta de acciones (compartir y comentar) -->
   <ion-card>
     <ion-card-header>
       <div class="icon-row">
+        <!-- Botón para compartir el tópico actual -->
         <ion-button (click)="compartir(topic)">
           <ion-icon name="share-social-outline"></ion-icon>
           Compartir
         </ion-button>
+        <!-- Botón para abrir el modal de comentarios -->
         <ion-button style="margin-left: 5px;" (click)="abrirCerrarModal()">
           <ion-icon name="add-outline"></ion-icon>
           Comentar
@@ -70,15 +85,18 @@
 
 </ion-content>
 
+<!-- Modal para agregar comentarios -->
 <ion-modal [isOpen]="isModal">
   <ng-template>
     <ion-content class="modal-content">
       <ion-card>
         <ion-card-header>
+          <!-- Encabezado del modal para agregar un comentario -->
           <ion-label class="comment-author" position="floating">Tu comentario</ion-label>
         </ion-card-header>
 
         <ion-card-content>
+          <!-- Área de texto para ingresar un nuevo comentario -->
           <ion-textarea [(ngModel)]="newComentario" rows="4" placeholder="Escribe tu comentario aquí"></ion-textarea>
         </ion-card-content>
       </ion-card>
@@ -86,6 +104,7 @@
       <ion-card>
         <ion-card-header>
           <div class="icon-row">
+            <!-- Botones para cerrar el modal o guardar el comentario -->
             <ion-button (click)="abrirCerrarModal()">
               <ion-icon name="close-outline"></ion-icon>
               Cerrar
@@ -102,19 +121,22 @@
   </ng-template>
 </ion-modal>
 
-
+<!-- Modal para compartir el tópico con usuarios -->
 <ion-modal [isOpen]="mostrarSelectUsuarios">
   <ng-template>
     <ion-content class="modal-content">
       <ion-card>
         <ion-card-header>
+          <!-- Encabezado del modal para seleccionar usuarios para compartir -->
           <ion-label class="comment-author" position="floating">Compartir con:</ion-label>
         </ion-card-header>
 
         <ion-card-content>
+          <!-- Lista de selección múltiple de usuarios -->
           <ion-item>
             <ion-select #selectUsuarios multiple="true" cancelText="Cancelar" okText="Aceptar"
               [(ngModel)]="usuariosSeleccionados" placeholder="Selecione usuarios">
+              <!-- Iteración a través de usuarios para opciones de selección -->
               <ion-select-option *ngFor="let usuario of usuarios" [value]="usuario.id">
                 {{ usuario.name }} {{ usuario.last_name }}
               </ion-select-option>
@@ -123,6 +145,7 @@
         </ion-card-content>
       </ion-card>
 
+      <!-- Tarjeta de detalles del tópico actual a compartir -->
       <ion-card *ngIf="topic">
         <ion-card-header>
           <div class="header-content">
@@ -130,6 +153,7 @@
           </div>
         </ion-card-header>
         <ion-card-content>
+          <!-- Detalles del tópico seleccionado para compartir -->
           <p>{{topic.name}}</p>
           <p>Color: <input type="color" [(ngModel)]="topic.color" /></p>
           <p>Fecha de Creación: {{ topic.create_date }}</p>
@@ -139,6 +163,7 @@
       <ion-card>
         <ion-card-header>
           <div class="icon-row">
+            <!-- Botones para cerrar el modal de compartir o confirmar la acción -->
             <ion-button (click)="abrirCerrarModalCompartir()">
               <ion-icon name="close-outline"></ion-icon>
               Cerrar
@@ -147,19 +172,10 @@
               <ion-icon name="checkmark-outline"></ion-icon>
               Ok
             </ion-button>
-
-            
-
           </div>
         </ion-card-header>
       </ion-card>
 
-
-
     </ion-content>
   </ng-template>
-
-
-
-
 </ion-modal>

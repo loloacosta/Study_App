@@ -1,18 +1,23 @@
+<!-- Encabezado de la página, incluye un botón para regresar y el título de la página -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
+      <!-- Botón de regreso con texto dinámico obtenido del componente TS -->
       <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title> Tópicos</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Contenido principal de la página, se muestra solo si hay tópicos disponibles -->
 <ion-content [fullscreen]="true" *ngIf="topicos">
+  <!-- Tarjeta que contiene las opciones de ordenación de los tópicos -->
   <ion-card>
     <ion-card-header class="comment-author">
       Ordenar por:
     </ion-card-header>
     <ion-card-content>
+      <!-- Botones para ordenar los tópicos por nombre o ID -->
       <div class="icon-row" style="margin-left: 5%;">
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortAZ()">A-Z</ion-button>
         <ion-button style="margin-right: 2%;" color="secondary" fill="outline" (click)="sortZA()">Z-A</ion-button>
@@ -22,83 +27,62 @@
     </ion-card-content>
   </ion-card>
 
-
+  <!-- Lista de tópicos con la funcionalidad de reordenación -->
   <ion-list>
-    <!-- reordenar topicos -->
     <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder($event)">
+      <!-- Itera sobre cada tópico para mostrar sus detalles -->
       <ion-item *ngFor="let topico of topicos">
         <div class="topic-details">
+          <!-- Muestra el ID y nombre del tópico, con el color del tópico aplicado al texto -->
           <ion-label class="topic-label" [style.color]="topico.color">{{topico.id}} - {{topico.name}}</ion-label>
         </div>
         <ion-buttons slot="end">
+          <!-- Selector de color para cambiar el color asociado al tópico -->
           <input type="color" [(ngModel)]="topico.color" />
+          <!-- Botón para ver detalles del tópico -->
           <ion-button [routerLink]="'/topic-details/' + topico.id">
             <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
           </ion-button>
+          <!-- Botón para confirmar la eliminación del tópico -->
           <ion-button (click)="confirmDelete(topico.id, 'eliminartopico')">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
           </ion-button>
+          <!-- Control para reordenar el tópico en la lista -->
           <ion-reorder slot="end"></ion-reorder>
         </ion-buttons>
       </ion-item>
 
-      <!--boton guardar debajo de la lista -->
-     <div class="ion-text-center" style="padding-bottom: 5%; padding-top: 5%;">
-      <ion-button (click)="saveOrder()" shape="round">
-        Guardar
-        <ion-icon slot="end" name="save-outline"></ion-icon>
-      </ion-button>
-    </div>
-
+      <!-- Botón para guardar el orden actual de los tópicos, ubicado debajo de la lista -->
+      <div class="ion-text-center" style="padding-bottom: 5%; padding-top: 5%;">
+        <ion-button (click)="saveOrder()" shape="round">
+          Guardar
+          <ion-icon slot="end" name="save-outline"></ion-icon>
+        </ion-button>
+      </div>
     </ion-reorder-group>
   </ion-list>
 
-   
-
-  <!-- <ion-card>
-    <ion-card-header class="comment-author">
-      {{textoTopicosCompartidos}}
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let topico of topicosCompartidosConmigo">
-          <ion-label [style.color]="topico.color">
-            {{topico.name}} por {{topico.nombre}} {{topico.apellido}}
-          </ion-label>
-          <ion-buttons slot="end">
-            <ion-button [routerLink]="'/topic-details/' + topico.id">
-              <ion-icon slot="icon-only" name="eye"></ion-icon>
-            </ion-button>
-           
-            <ion-button (click)="confirmDeleteCompartidos(topico.id)">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-          
-          </ion-item>
-        
-      </ion-list>
-     
-    </ion-card-content>
-  </ion-card> 
--->
-
-
-  <!-- Lista de Tópicos Compartidos -->
+  <!-- Tarjeta para listar los Tópicos Compartidos -->
   <ion-card>
     <ion-card-header class="comment-author">
+      <!-- Texto dinámico para el título de la tarjeta de tópicos compartidos -->
       {{textoTopicosCompartidos}}
     </ion-card-header>
     <ion-card-content>
+      <!-- Lista de tópicos compartidos -->
       <ion-list>
+        <!-- Itera sobre cada tópico compartido para mostrar sus detalles -->
         <ion-item *ngFor="let topicoCompartido of topicosCompartidosConmigo">
+          <!-- Muestra el nombre del tópico y el nombre del usuario que lo compartió, con el color del tópico aplicado al texto -->
           <ion-label [style.color]="topicoCompartido.color">
             {{topicoCompartido.name}} por {{topicoCompartido.nombre}} {{topicoCompartido.apellido}}
           </ion-label>
           <ion-buttons slot="end">
+            <!-- Botón para ver detalles del tópico compartido -->
             <ion-button [routerLink]="'/topic-details/' + topicoCompartido.id">
               <ion-icon slot="icon-only" name="eye"></ion-icon>
             </ion-button>
+            <!-- Botón para eliminar un tópico compartido -->
             <ion-button (click)="confirmDelete(topicoCompartido.id_compartido, '')">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
@@ -107,16 +91,12 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+</ion-content>
 
-
-
-
- </ion-content>
-
+<!-- Botón flotante para agregar un nuevo tópico -->
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button [routerLink]="'/topic-edit/0'">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
 </ion-fab>
-
-
+;

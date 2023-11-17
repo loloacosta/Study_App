@@ -1,11 +1,16 @@
+<!-- . Encabezado de la página con fondo translúcido -->
 <ion-header [translucent]="true"></ion-header>
 
+<!-- . Contenido principal de la página con transparencia, condicionalmente se muestra si existe un usuario logueado -->
 <ion-content [fullscreen]="true" *ngIf="usuario" class="ion-content-center">
+  <!-- . Tarjeta de inicio de sesión -->
   <ion-card class="login-card">
     <ion-card-header class="login-header">
+      <!-- . Título de la tarjeta de inicio de sesión -->
       <ion-title class="login-title">Iniciar Sesión</ion-title>
     </ion-card-header>
     <ion-card-content class="login-content">
+      <!-- . Campo de entrada de correo electrónico -->
       <ion-item lines="none" class="hover-effect input-item">
         <ion-icon name="mail-outline" slot="start"></ion-icon>
         <ion-input
@@ -15,6 +20,7 @@
         ></ion-input>
       </ion-item>
 
+      <!-- . Campo de entrada de contraseña -->
       <ion-item lines="none" class="hover-effect input-item">
         <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
         <ion-input
@@ -24,36 +30,40 @@
         ></ion-input>
       </ion-item>
 
+      <!-- . Botón para iniciar sesión, al hacer clic se ejecuta la función loginUser() -->
       <ion-button expand="full" (click)="loginUser()" class="login-button hover-effect">
         Ingresar
       </ion-button>
 
+      <!-- . Botón para mostrar un modal para recuperar la contraseña -->
       <ion-button expand="full" fill="clear" (click)="showRecoverPasswordModal()">
         ¿Olvidaste tu contraseña?
       </ion-button>
-
-
-
-
     </ion-card-content>
   </ion-card>
 </ion-content>
 
-
+<!-- . Modal para recuperar la contraseña, se muestra condicionalmente si la variable isModal es verdadera -->
 <ion-modal [isOpen]="isModal">
   <ng-template>
     <ion-content>
       <ion-card>
         <ion-card-header>
+          <!-- . Título del modal de recuperación de contraseña -->
           <ion-title>Recuperar Contraseña</ion-title>
         </ion-card-header>
         <ion-card-content>
+          <!-- . Campo de entrada de correo electrónico para recuperar la contraseña -->
           <ion-item lines="none">
             <ion-input type="email" placeholder="Ingrese su email" [(ngModel)]="emailRecuperacion"></ion-input>
           </ion-item>
+
+          <!-- . Botón para iniciar el proceso de recuperación de contraseña -->
           <ion-button expand="full" (click)="recuperarPassword()">
             Recuperar
           </ion-button>
+
+          <!-- . Botón para cerrar el modal de recuperación de contraseña -->
           <ion-button expand="full" (click)="showRecoverPasswordModal()">
             Cerrar
           </ion-button>
