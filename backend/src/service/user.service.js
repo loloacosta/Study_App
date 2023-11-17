@@ -81,6 +81,8 @@ const eliminar = async function (codigo) {
     throw error;
   }
 };
+
+//recuperacion de contraseña
 const newPassword = async function (userId) {
   try {
     // Generar una contraseña aleatoria de 6 dígitos

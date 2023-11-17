@@ -21,18 +21,22 @@
         <ion-item *ngFor="let properties of themesProperties">
           <div>
             <!-- Información del autor del comentario y fecha de creación -->
-            <span> {{ properties.property_name }} - {{ properties.property_value }}</span>
+            <span>  {{ properties.property_value }} - {{ properties.property_name }} </span>
 
           </div>
-          <ion-button color="warning" style="margin-left: auto;"
-            (click)="abrirCerrarModal(properties)">
-            <ion-icon style="font-size: 25px;" slot="end" name="create"></ion-icon>
-          </ion-button>
           
-          <ion-button color="danger" style="margin-left: auto;"
-            (click)="confirmDeleteProperties(properties.id,properties.theme_id)">
-            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-          </ion-button>
+          <!-- con el buttons guardamos ambos botones y mandamos el final con end -->
+          <ion-buttons slot="end">
+            <!-- Botón de editar -->
+            <ion-button color="warning" (click)="abrirCerrarModal(properties)">
+              <ion-icon style="font-size: 25px;" slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <!-- Botón de eliminar -->
+            <ion-button color="danger" (click)="confirmDeleteProperties(properties.id,properties.theme_id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+       
 
         </ion-item>
       </ion-list>
