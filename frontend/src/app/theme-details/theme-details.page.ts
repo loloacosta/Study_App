@@ -27,10 +27,8 @@ export class ThemeDetailsPage implements OnInit {
     this.getThemesProperties(id_theme)
   }
 
-
   getBackButtonText() {
     const isIos = this.platform.is('ios');
-    // Devuelve un texto vacío si es iOS, de lo contrario también puede devolver un texto vacío o personalizar
     return isIos ? '' : '';
   }
 
@@ -65,9 +63,9 @@ export class ThemeDetailsPage implements OnInit {
   }
 
   //necesitamos tarer el id del tema, tambien se define en el html
+  //id del tema e id de la propiedad
   confirmDeleteProperties(id:string, temaid:any){
     let token = localStorage.getItem('token');
-    // Configuración de los headers de la petición HTTP
     let config = {
       headers: {
         Authorization: token,
@@ -78,14 +76,10 @@ export class ThemeDetailsPage implements OnInit {
       .delete('http://localhost:3000/themes_properties/delete/' + id, config)
       .then((result) => {
         if (result.data.success === true) {
-          //const newId= temaid.toString()
           console.log(temaid);
-          
           this.getThemesProperties(temaid);
         } else {
-         
          console.log("error");
-         
         }
       })
       
@@ -170,7 +164,6 @@ export class ThemeDetailsPage implements OnInit {
   }
 
 
-  
 
   abrirCerrarModal(property: any){    
     this.isModalThemesProperties=!this.isModalThemesProperties
@@ -178,8 +171,7 @@ export class ThemeDetailsPage implements OnInit {
     this.newThemeProperty.propertyValue = property.property_value
     this.idpropiedad=property.id;
     this.titulo="Editar"
-    //const id_theme = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    
+        
   }
 
   

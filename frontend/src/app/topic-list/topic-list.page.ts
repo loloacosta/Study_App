@@ -56,6 +56,29 @@ export class TopicListPage implements OnInit {
   ngOnInit() {
   }
 
+    // Método para obtener los tópicos del servidor
+    getTopics() {
+      let token = localStorage.getItem('token');
+      let config = {
+        headers: {
+          Authorization: token,
+        },
+      };
+      axios
+        .get('http://localhost:3000/topics/list', config)
+        .then((result) => {
+          if (result.data.success == true) {
+            this.topicos = result.data.topicos;
+  
+          } else {
+            console.log(result.data.error);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+
   async confirmDelete(id: number, texto: string) {
     const alert = await this.alertController.create({
       header: 'Mensaje',
@@ -77,29 +100,6 @@ export class TopicListPage implements OnInit {
       ],
     });
     await alert.present();
-  }
-
-  // Método para obtener los tópicos del servidor
-  getTopics() {
-    let token = localStorage.getItem('token');
-    let config = {
-      headers: {
-        Authorization: token,
-      },
-    };
-    axios
-      .get('http://localhost:3000/topics/list', config)
-      .then((result) => {
-        if (result.data.success == true) {
-          this.topicos = result.data.topicos;
-
-        } else {
-          console.log(result.data.error);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
   }
 
   // Método para eliminar un tópico utilizando su ID

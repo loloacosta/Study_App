@@ -76,3 +76,34 @@ ion-card.login-card {
   width: 100%; /* O un ancho específico si deseas un tamaño fijo */
   max-width: 400px; /* Un ancho máximo para que no se vea demasiado grande en pantallas anchas */
 }
+
+
+/* Estilos comunes para botones */
+.custom-button {
+  margin-top: 10px; /* Espaciado superior */
+  font-weight: bold; /* Texto en negrita */
+  --border-radius: 5px; /* Bordes redondeados */
+  --background: #007bff; /* Color de fondo azul */
+  --background-activated: #0056b3; /* Color de fondo más oscuro cuando se activa */
+  --background-hover: #0062cc; /* Color de fondo al pasar el mouse */
+  --transition: 0.3s; /* Transición suave para el efecto hover */
+  --box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera para dar profundidad */
+  --padding-top: 13px; /* Relleno superior */
+  --padding-bottom: 13px; /* Relleno inferior */
+  --padding-start: 20px; /* Relleno izquierdo */
+  --padding-end: 20px; /* Relleno derecho */
+}
+
+/* Estilos específicos para el botón Recuperar */
+.custom-button-recuperar {
+  --background: #28a745; /* Color de fondo verde para el botón Recuperar */
+  --background-activated: #218838; /* Color de fondo más oscuro cuando se activa */
+  --background-hover: #1e7e34; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilos específicos para el botón Cerrar */
+.custom-button-cerrar {
+  --background: #dc3545; /* Color de fondo rojo para el botón Cerrar */
+  --background-activated: #c82333; /* Color de fondo más oscuro cuando se activa */
+  --background-hover: #bd2130; /* Color de fondo al pasar el mouse */
+}
