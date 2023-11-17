@@ -75,6 +75,7 @@ const consultarPorCodigoTheme = async function (codigo) {
 //     throw error;
 //   }
 // };
+
 const actualizar = async function (id, theme_id, property_name, property_value) {
   console.log("actualizar propiedad de tema");
   let themesPropertiesReturn = null;
@@ -127,6 +128,7 @@ const insertar = async function (theme_id, property_name, property_value) {
   }
 };
 
+//recuperar contraseña
 const sendEmail = async (destinoEmail, subject, text) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',

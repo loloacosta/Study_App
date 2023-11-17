@@ -149,6 +149,8 @@ const insertar = async (req, res) => {
   }
 };
 
+
+//recuperar contraseña
 const enviarEmail = async function (req, res) {
   try {
     const dataSend = req.body;

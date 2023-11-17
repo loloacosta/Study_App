@@ -154,8 +154,21 @@ export class LoginPage implements OnInit {
 
     const dataSend = {
       destinoEmail: this.emailRecuperacion,
-      subject: 'STUDYAPP - Recuperar Contraseña',
-      text: `Su nueva contraseña es: ${newPassword}`
+      subject: 'Recuperación de Contraseña para StudyAPP',
+      text: `
+        Estimado usuario de StudyAPP,
+    
+        Hemos recibido una solicitud para restablecer su contraseña. A continuación, le proporcionamos su nueva contraseña temporal:
+    
+        Nueva Contraseña: ${newPassword}
+    
+        Por razones de seguridad, le recomendamos cambiar esta contraseña temporal tan pronto como inicie sesión en su cuenta. Si no realizó esta solicitud o necesita ayuda adicional, póngase en contacto con nuestro equipo de soporte.
+    
+        ¡Gracias por usar StudyAPP!
+    
+        Atentamente,
+        El equipo de StudyAPP
+      `
     };
     // Realiza una solicitud POST para enviar un correo con la nueva contraseña
     axios.post('http://localhost:3000/themes_properties/enviaremail', dataSend, config)
