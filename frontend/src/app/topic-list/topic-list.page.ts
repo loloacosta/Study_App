@@ -66,6 +66,7 @@ export class TopicListPage implements OnInit {
         .get('http://localhost:3000/topics/list', config)
         .then((result) => {
           if (result.data.success == true) {
+            console.log("thopic list log",result);
             this.topicos = result.data.topicos;
   
           } else {

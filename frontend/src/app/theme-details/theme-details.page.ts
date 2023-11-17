@@ -49,8 +49,10 @@ export class ThemeDetailsPage implements OnInit {
       .get('http://localhost:3000/themes_properties/buscarPorTema/' + temaid, config)
       .then((result) => {
         if (result.data.success == true) {
+          console.log("theme_details",result);
+          
           this.themesProperties = result.data.themes_properties;
-          console.log(this.themesProperties);
+         // console.log(this.themesProperties);
         } else {
           console.log(result.data);
         }
@@ -72,7 +74,7 @@ export class ThemeDetailsPage implements OnInit {
       .delete('http://localhost:3000/themes_properties/delete/' + id, config)
       .then((result) => {
         if (result.data.success === true) {
-          console.log(temaid);
+          //console.log(temaid);
           this.getThemesProperties(temaid);
         } else {
           console.log("error");

@@ -66,6 +66,8 @@ export class TopicDetailsPage implements OnInit {
             this.accion = 'Detalles Tópico'; // Cambiar la acción a "Detalles" si el ID no es '0'
           }
           if (result.data.topic != null) {
+            //console.log("topic-details",result);
+            
             this.topic = result.data.topic;
           } else {
             this.topic = {};

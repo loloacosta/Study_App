@@ -6,6 +6,8 @@ import { IonicModule, Platform, ToastController } from '@ionic/angular';
 import { DataService, Message } from '../services/data.service';
 import axios from 'axios';
 
+//***********   deendencia utilizada : npm install nodemailer        ********* */
+
 // Declaración del componente
 @Component({
   selector: 'app-login',
@@ -82,6 +84,8 @@ export class LoginPage implements OnInit {
         this.presentToast(error.message);
       });
   }
+
+  
 
   // Método que se ejecuta antes de mostrar la vista
   ionViewWillEnter(): void {
